@@ -1,0 +1,22 @@
+{
+    "name": "artovenry/custom_post_type",
+    "require": {
+        "php": "^5.4",
+        "symfony/yaml": "^2.8"
+    },
+    "require-dev": {
+        "symfony/debug": "^2.8",
+        "phpunit/phpunit": "^4.8"
+    },
+    "authors": [
+        {
+            "name": "artovenry",
+            "email": "artovenry@gmail.com"
+        }
+    ],
+    "autoload":{
+      "psr-4": {
+        "": ["lib/"]
+      }
+    }
+}
