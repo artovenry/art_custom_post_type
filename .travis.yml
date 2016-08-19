@@ -8,7 +8,7 @@ env:
   - WP_VERSION=4.6
 before_script:
   - composer install
-  - mysql -uroot -e "create database wp"
+  - mysql -uroot -e "create database custom_post_type"
   - cd ./test && mkdir ./wp
   - export PATH=../vendor/bin:$PATH
   - wp core download --version=$WP_VERSION  --path=./wp/$WP_VERSION
