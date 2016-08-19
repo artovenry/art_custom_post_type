@@ -7,7 +7,7 @@
     "require-dev": {
         "symfony/debug": "^2.8",
         "phpunit/phpunit": "^4.8",
-        "wp-cli/wp-cli": "dev-master"
+        "wp-cli/wp-cli": "0.21.1"
     },
     "authors": [
         {
