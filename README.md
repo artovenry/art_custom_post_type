@@ -59,8 +59,6 @@ echo $event instanceof Event; //true
 echo $event->post instanceof WP_Post; //true
 ```
 
-
-
 Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them.
 
 ```php
@@ -78,3 +76,8 @@ echo $event->scheduled_on;  // null
 ```
 
 notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
+
+Validation? We offer nothing about it.
+
+Callback? We offer two callback methods `after_save` and `before_save`.
+
