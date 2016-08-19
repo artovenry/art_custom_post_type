@@ -11,7 +11,7 @@ before_script:
   - mysql -uroot -e "create database wp"
   - cd ./test && mkdir ./wp
   - export PATH=../vendor/bin:$PATH
-  - wp core download --version=$WP_VERSION && --path=./wp/$WP_VERSION
+  - wp core download --version=$WP_VERSION  --path=./wp/$WP_VERSION
   - wp core config --path=./wp/$WP_VERSION
   - wp core install --path=./wp/$WP_VERSION
 script: ./vendor/phpunit/phpunit/phpunit -c test/phpunit.xml
