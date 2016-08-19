@@ -7,6 +7,8 @@ env:
   - WP_VERSION=4.5
   - WP_VERSION=4.6
 before_script:
+  - echo 'date.timezone = "Asia/Tokyo"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - echo 'short_open_tag = On' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install
   - mysql -uroot -e "create database custom_post_type"
   - cd ./test && mkdir ./wp
