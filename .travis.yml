@@ -14,4 +14,4 @@ before_script:
   - wp core download --version=$WP_VERSION  --path=./wp/$WP_VERSION
   - wp core config --path=./wp/$WP_VERSION
   - wp core install --path=./wp/$WP_VERSION
-script: ../vendor/phpunit/phpunit/phpunit -c test/phpunit.xml
+script: ../vendor/phpunit/phpunit/phpunit -c ./phpunit.xml
