@@ -9,10 +9,9 @@ env:
 before_script:
   - composer install
   - mysql -uroot -e "create database wp"
-  - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
   - cd ./test
-  - php wp-cli.phar core download --version=$WP_VERSION && --path=./wp/$WP_VERSION
-  - cd ./wp/$WP_VERSION
-  - php wp-cli.phar core config
-  - php wp-cli.phar core install
+  - export PATH=../vendor/bin:$PATH
+  - wp core download --version=$WP_VERSION && --path=./wp/$WP_VERSION
+  - wp core config --path=./wp/$WP_VERSION
+  - wp core install --path=./wp/$WP_VERSION
 script: ./vendor/phpunit/phpunit/phpunit -c test/phpunit.xml
