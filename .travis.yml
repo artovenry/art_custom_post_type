@@ -9,7 +9,7 @@ env:
 before_script:
   - composer install
   - mysql -uroot -e "create database wp"
-  - cd ./test
+  - cd ./test && mkdir ./wp
   - export PATH=../vendor/bin:$PATH
   - wp core download --version=$WP_VERSION && --path=./wp/$WP_VERSION
   - wp core config --path=./wp/$WP_VERSION
