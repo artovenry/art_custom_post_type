@@ -6,9 +6,25 @@ Wordpress plugin for custom post type.
 ```php
 <?
   class Event extends Artovenry\CustomPostType\Base{
-  
-  
-  
+    static $post_type_options=[
+      "name"=>    "event",
+      "label"=>   "Our Big Event!",
+    ];
+    static $meta_attributes=["organization", "scheduled_on", "location"];
+    static $meta_boxes= [
+      ["name"=>, "extra", "label"=> "Extra Informations"],
+      ["name"=>, "option", "label"=> "Options"]
+    ];
+    static $post_list_options=[
+      "order"=>["organization", "title", "scheduled_on", "location", "date"],
+      "columns"=>[
+        "organization"=>["label"=>""],
+        "scheduled_on"=>["label"=>"Scheduled On",
+          "render"=>function($record){echo "<b style='color:red;'>{$record->scheduled_on}</b>";},
+        ],
+        "location"=>["label"=>"Loc."]
+      ]
+    ];
   }
 ?>
 ```
