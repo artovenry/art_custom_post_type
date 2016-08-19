@@ -47,3 +47,34 @@ Wordpress plugin for custom post type.
     </article>
 </section>
 ```
+
+# Feature
+## Simple and useful APIs.
+
+Retrieve *published and latest* "event" post and wrap this `WP_Post` object into `Event` object.
+
+```php
+$event= Event::take();
+echo $event instanceof Event; //true
+echo $event->post instanceof WP_Post; //true
+```
+
+
+
+Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them.
+
+```php
+$event= Event::take();
+$event->setMeta([
+  "organization" => "Our friends",
+  "location"     => "Meiji Jingu"
+]);
+$event->deleteMeta("scheduled_on");
+$event->Event::take();
+
+echo $event->location;      // "Meiji Jingu"
+echo $event->organization;  // "Our friends"
+echo $event->scheduled_on;  // null
+```
+
+notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
