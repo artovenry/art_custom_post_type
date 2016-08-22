@@ -15,4 +15,6 @@ before_script:
   - wp core download --version=$WP_VERSION  --path=./wp/$WP_VERSION
   - wp core config --path=./wp/$WP_VERSION
   - wp core install --path=./wp/$WP_VERSION
+  - ln -s $TRAVIS_BUILD_DIR ./wp/$WP_VERSION/wp-content/plugins/custom_post_type
+  - ln -s $TRAVIS_BUILD_DIR/test/theme ./wp/$WP_VERSION/wp-content/themes/theme
 script: ../vendor/phpunit/phpunit/phpunit -c ./phpunit.xml
