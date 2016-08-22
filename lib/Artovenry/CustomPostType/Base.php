@@ -5,14 +5,19 @@ abstract class Base{
     "public"          => true,
     "hierarchical"    => false,
     "rewrite"         => false,
-    "supports"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
+    "support"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
 
-  static function extract_options($name){
-    if(defined(static::$$name)) return static::$$name;
+  static function extract_static_for($name){
+    if(!empty(static::$$name)) return static::$$name;
     $method_name= join("::", [get_called_class(), $name]);
     if(is_callable($method_name)) return call_user_func($method_name);
     if(ART_ENV === "development")throw new Error("Option: '$name' is not defined.");
     return false;
+  }
+
+  static function build(){}
+  static function post_type(){
+    return toLowerCase(get_called_class());
   }
 }

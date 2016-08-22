@@ -12,8 +12,8 @@ class Initializer{
 
 	function register(){
 		add_action("init", function(){
-			foreach($this->post_types as $options)
-				register_post_type($options["name"], $options);
+			foreach($this->post_types as $post_type=>$options)
+				register_post_type($post_type, $options["options"]);
 		});
 	}
 
@@ -25,9 +25,6 @@ class Initializer{
 
 	//private
 		private function __construct(){
-			$this->extract_models();
-		}
-		private function extract_models(){
 			if(!is_dir(get_template_directory() . "/models"))
 				return false;
 			foreach(glob(get_template_directory() . "/models/*.php") as $file){
@@ -41,9 +38,17 @@ class Initializer{
 					if(ART_ENV === "development")throw new Error("class {$class_name} is not inherited from Artovenry\CustomPostType\Base.");
 					return false;
 				}
-				$this->post_types[$class_name]= array_merge(
-					Base::$default_post_type_options, $class_name::extract_options("post_type_options")
-				);
+				$options= $class_name::extract_static_for("post_type_options");
+				if(empty($options["label"]))$options["label"]= $post_type;
+				$options= array_merge(Base::$default_post_type_options, $options);
+				$meta_boxes= MetaBox::create($class_name);
+				$options["register_meta_box_cb"]= function() use($meta_boxes){
+					foreach($meta_boxes as $item)$item->register();
+				};
+				$this->post_types[$class_name::post_type()]= [
+					"class" => $class_name,
+					"options"=> $options
+				];
 			}
 		}
 }
