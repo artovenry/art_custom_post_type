@@ -1,3 +1,3 @@
 <?
-namespace Artovenry\Wp\CustomPostType;
+namespace Artovenry\CustomPostType;
 abstract class Base{}
