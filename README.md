@@ -76,28 +76,13 @@ echo $event->organization;  // "Our friends"
 echo $event->scheduled_on;  // null
 ```
 
-notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
-
-## Validation
-
-We do support **nothing** about it.
-
-## Callback
-
-We offer two callback methods `after_save` and `before_save`.
-
-```php
-class Information extends Artovenry\CustomPostType\Base{
-  static function after_save($post_id, $post, $updated){
-
-  }
-}
-```
-
+Notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
 
 ## Metabox
 
 You can define multiple metaboxes for each custom_post_type classes via static attribute or method named `meta_boxes`. We basically use **Haml** for rendering engine.
+
+Notice: `$meta_boxes` and `$meta_attributes` are independent. You can define `$meta_attributes` without defining `$meta_boxes`. Of course, you will need to define `$meta_boxes` if you want users to edit your meta attributes in WP's edit interface.
 
 ### Simple
 
@@ -114,7 +99,6 @@ will render metabox with template (do not forget `.html.haml` or `.php` extensio
 
 ```php
   static $meta_boxes=["name"=>'options', "label"=> "OPTS", "template"=>"options"];
-}
 ```
 
 In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .php)`.
@@ -132,3 +116,22 @@ In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .
   static $meta_boxes=["name"=>"options", "render"=>[$this->meta_renderer, "render"]]
 
 ```
+
+## Callback
+When saving a post, POSTed `meta_attributes` will be automatically persisted into wp_postmeta table(via WP's action hook: `save_post`), when CSRF authorized. Otherwise, this callback is skipped (meta_attributes **will not persisted**).
+
+**$meta_boxes** generates its own csrf token (per meta_box) and render hidden  input field with `_art_nonce_{template's name}` (eg, `_art_nonce_item_price`).
+CSRF authorization check this token and authorize your POSTed meta_attributes.
+
+```php
+class Information extends Artovenry\CustomPostType\Base{
+  static function after_save($post_id, $post, $updated){
+    if($post->post_status === "draft")
+      $
+  }
+}
+```
+
+## Validation
+
+We do support **nothing** about it.
