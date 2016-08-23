@@ -25,9 +25,9 @@ class Initializer{
 
 	//private
 		private function __construct(){
-			if(!is_dir(get_template_directory() . "/models"))
+			if(!is_dir(get_template_directory() . "/" . MODELS))
 				return false;
-			foreach(glob(get_template_directory() . "/models/*.php") as $file){
+			foreach(glob(join("/", [get_template_directory(),MODELS, "/*.php"])) as $file){
 				$class_name= basename($file, ".php");
 				require $file;
 				if(!class_exists($class_name)){

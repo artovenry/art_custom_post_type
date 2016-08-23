@@ -2,7 +2,7 @@
 Wordpress plugin for custom post type.
 
 # Usage
-+ Create `/your_wp_theme_directory/custom_post_types/SomePostType.php`.
++ Create `/your_wp_theme_directory/models/SomePostType.php`.
 ```php
 <?
   class Event extends Artovenry\CustomPostType\Base{
@@ -60,6 +60,8 @@ echo $event->post instanceof WP_Post; //true
 
 Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them (You can simply define themes attributes by declaring static attribute or method named `meta_attributes`).
 
+Notice: `post_type` is automatically guessed and registered into WP from **class name**. For example, class `Event` will be interpretated to `event`, class `ScheduledEvent` will be `scheduled_event`. `post_type`'s length  is **limited 20chars**.
+
 ```php
 $event= Event::take();
 $event->setMeta([
@@ -76,6 +78,50 @@ echo $event->scheduled_on;  // null
 
 notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
 
-Validation? We offer nothing about it.
-Callback? We offer two callback methods `after_save` and `before_save`.
-Metabox? You can define multiple metaboxes via static attribute or method named `meta_boxes`:
+## Validation
+
+We do support **nothing** about it.
+
+## Callback
+
+We offer two callback methods `after_save` and `before_save`.
+
+```php
+class Information extends Artovenry\CustomPostType\Base{
+  
+}
+
+
+
+## Metabox
+
+You can define multiple metaboxes for each custom_post_type classes via static attribute or method named `meta_boxes`. We basically use **Haml** for rendering engine.
+
+### Simple
+```php
+class ExamplePostType extends Artovenry\CustomPost\Base{
+  static $meta_boxes=["name"=>'options', "label"=> "Please set your options!"];
+  //...
+}
+```
+will render metabox with template (do not forget `.html.haml` or `.php` extension) `{TEMPLATEPATH}/models/meta_boxes/example_post_type/options.html.haml`, or `{TEMPLATEPATH}/models/meta_boxes/example_post_type/options.php`.
+
+### You can define your own template file.
+```php
+  static $meta_boxes=["name"=>'options', "label"=> "OPTS", "template"=>"options"];
+}
+```
+In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .php)`.
+
+### You can dynamically define your rendering method by specifing its static method's name, or callable value.
+```php
+  static $meta_boxes=["name"=>"options", "render"=>"render_options_box"];
+  //...
+  static function render_options_box(){
+    //outputs your meta box,,,
+  }
+
+  //or with callable style...
+  static $meta_boxes=["name"=>"options", "render"=>[$this->meta_renderer, "render"]]
+
+```
