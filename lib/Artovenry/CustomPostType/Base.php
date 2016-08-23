@@ -12,7 +12,7 @@ abstract class Base{
     if(!empty(static::$$name)) return static::$$name;
     $method_name= join("::", [get_called_class(), $name]);
     if(is_callable($method_name)) return call_user_func($method_name);
-    if(ART_ENV === "development")throw new Error("Option: '$name' is not defined.");
+    if(ART_ENV === "development")throw new Error("Static attribute or method: '$name' is not defined.");
     return false;
   }
 

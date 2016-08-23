@@ -10,9 +10,9 @@ class MetaBox{
   private $name;
 
 
-  static function create($class){
-    $meta_boxes= $class::extract_static_for("meta_boxes");
-    $post_type= $class::post_type();
+  static function create($class_name){
+    $meta_boxes= $class_name::extract_static_for("meta_boxes");
+    $post_type= $class_name::post_type();
     if(empty($meta_boxes))return [];
     return array_map(function($item) use($post_type){
       return new self($post_type, $item);
@@ -25,16 +25,16 @@ class MetaBox{
   }
   function render($post, $args){
     extract($this->options);
-    $class= toCamelCase($this->post_type);
+    $class_name= toCamelCase($this->post_type);
     $post_type= $this->post_type;
     $locals= array_merge([
       "post_type"=> $post_type,
-      $post_type=> $class::build($post),
+      $post_type=> $class_name::build($post),
     ], $args);
     if(DEFAULT_RENDERER === "Haml")
       Haml::render_metabox($template, $locals);
     else
-      do_action("art_render_metabox", $this->template, $locals);
+      do_action("art_render_metabox", $this->options, $locals);
   }
 
   //private

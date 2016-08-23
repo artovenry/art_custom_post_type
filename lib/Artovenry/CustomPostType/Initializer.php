@@ -13,7 +13,7 @@ class Initializer{
 	function register(){
 		add_action("init", function(){
 			foreach($this->post_types as $post_type=>$options)
-				register_post_type($post_type, $options["options"]);
+				register_post_type($post_type, $options);
 		});
 	}
 
@@ -38,6 +38,7 @@ class Initializer{
 					if(ART_ENV === "development")throw new Error("class {$class_name} is not inherited from Artovenry\CustomPostType\Base.");
 					return false;
 				}
+				$post_type= $class_name::post_type();
 				$options= $class_name::extract_static_for("post_type_options");
 				if(empty($options["label"]))$options["label"]= $post_type;
 				$options= array_merge(Base::$default_post_type_options, $options);
@@ -45,10 +46,7 @@ class Initializer{
 				$options["register_meta_box_cb"]= function() use($meta_boxes){
 					foreach($meta_boxes as $item)$item->register();
 				};
-				$this->post_types[$class_name::post_type()]= [
-					"class" => $class_name,
-					"options"=> $options
-				];
+				$this->post_types[$post_type]= $options;
 			}
 		}
 }
