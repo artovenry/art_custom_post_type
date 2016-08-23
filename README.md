@@ -7,7 +7,6 @@ Wordpress plugin for custom post type.
 <?
   class Event extends Artovenry\CustomPostType\Base{
     static $post_type_options=[
-      "name"=>    "event",
       "label"=>   "Our Big Event!",
     ];
     static $meta_attributes=["organization", "scheduled_on", "location"];
@@ -59,7 +58,7 @@ echo $event instanceof Event; //true
 echo $event->post instanceof WP_Post; //true
 ```
 
-Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them.
+Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them (You can simply define themes attributes by declaring static attribute or method named `meta_attributes`).
 
 ```php
 $event= Event::take();
@@ -78,6 +77,5 @@ echo $event->scheduled_on;  // null
 notice: We just use WP's build-in postmeta APIs. Unlike general ORM mapper framework, our APIs (`setMeta`, `deleteMeta` ,,,) don't effect anything to reciever object, simply call WP's functions.
 
 Validation? We offer nothing about it.
-
 Callback? We offer two callback methods `after_save` and `before_save`.
-
+Metabox? You can define multiple metaboxes via static attribute or method named `meta_boxes`:
