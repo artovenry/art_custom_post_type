@@ -9,7 +9,6 @@ class MetaBox{
   private $prefixed_name;
   private $name;
 
-
   static function create($class_name){
     $meta_boxes= $class_name::extract_static_for("meta_boxes");
     $post_type= $class_name::post_type();
@@ -31,10 +30,14 @@ class MetaBox{
       "post_type"=> $post_type,
       $post_type=> $class_name::build($post),
     ], $args);
-    if(DEFAULT_RENDERER === "Haml")
+
+    if(is_callable($render)){
+      call_user_func_array($render, $locals);
+    }elseif(DEFAULT_RENDERER === "Haml"){
       Haml::render_metabox($template, $locals);
-    else
+    }else{
       do_action("art_render_metabox", $this->options, $locals);
+    }
   }
 
   //private

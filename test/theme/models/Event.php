@@ -6,17 +6,12 @@ class Event extends Artovenry\CustomPostType\Base{
 
 
   //array or function
-  static $meta_attributes= ["show_at_home", "scheduled_on"];
+  static $meta_attributes= ["show_at_home","scheduled_on"];
 
   //array or function
   static $meta_boxes=[
-    [
-      "name"=>    "option",
-      "label"=>   "設定",
-    ],
-    [
-      "name"=>    "hoge",
-      "template"=>   "boge"
-    ],
+    ["name"=>    "option","label"=>   "設定",],
+    ["name"=>    "hoge","template"=>   "boge"],
+    ["name"=> "shoot", "render"=> "shooter"],
   ];
 }
