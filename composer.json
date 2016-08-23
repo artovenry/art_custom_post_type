@@ -21,6 +21,6 @@
       "psr-4": {
         "": ["lib/"]
       },
-      "files": ["lib/constants.php", "lib/functons.php"]
+      "files": ["lib/constants.php", "lib/functions.php"]
     }
 }

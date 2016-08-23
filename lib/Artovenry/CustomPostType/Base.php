@@ -16,8 +16,17 @@ abstract class Base{
     return false;
   }
 
-  static function build(){}
+  static function build($post_or_post_id){
+    return new static($post_or_post_id);
+  }
   static function post_type(){
     return toLowerCase(get_called_class());
   }
+
+  //private
+    private function __construct($post_or_post_id){
+      $p= $post_or_post_id;
+      $this->post= is_int($p)? get_post($p): $p;
+      $this->post_id= is_int($p)? $p: $p->ID;
+    }
 }

@@ -26,17 +26,19 @@ class MetaBox{
     extract($this->options);
     $class_name= toCamelCase($this->post_type);
     $post_type= $this->post_type;
-    $locals= array_merge([
+    $locals= [
       "post_type"=> $post_type,
       $post_type=> $class_name::build($post),
-    ], $args);
-
+      "args"=> $args
+    ];
     if(is_callable($render)){
-      call_user_func_array($render, $locals);
+      call_user_func_array($render, [$locals]);
+    }elseif(is_callable("{$class_name}::{$render}")){
+      call_user_func_array("{$class_name}::{$render}", [$locals]);
     }elseif(DEFAULT_RENDERER === "Haml"){
       Haml::render_metabox($template, $locals);
     }else{
-      do_action("art_render_metabox", $this->options, $locals);
+      do_action("art_render_metabox", $locals, $this->options);
     }
   }
 
