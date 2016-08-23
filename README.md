@@ -88,9 +88,11 @@ We offer two callback methods `after_save` and `before_save`.
 
 ```php
 class Information extends Artovenry\CustomPostType\Base{
-  
-}
+  static function after_save(){
 
+  }
+}
+```
 
 
 ## Metabox
