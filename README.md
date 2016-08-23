@@ -88,7 +88,7 @@ We offer two callback methods `after_save` and `before_save`.
 
 ```php
 class Information extends Artovenry\CustomPostType\Base{
-  static function after_save(){
+  static function after_save($post_id, $post, $updated){
 
   }
 }
@@ -100,22 +100,27 @@ class Information extends Artovenry\CustomPostType\Base{
 You can define multiple metaboxes for each custom_post_type classes via static attribute or method named `meta_boxes`. We basically use **Haml** for rendering engine.
 
 ### Simple
+
 ```php
 class ExamplePostType extends Artovenry\CustomPost\Base{
   static $meta_boxes=["name"=>'options', "label"=> "Please set your options!"];
   //...
 }
 ```
+
 will render metabox with template (do not forget `.html.haml` or `.php` extension) `{TEMPLATEPATH}/models/meta_boxes/example_post_type/options.html.haml`, or `{TEMPLATEPATH}/models/meta_boxes/example_post_type/options.php`.
 
 ### You can define your own template file.
+
 ```php
   static $meta_boxes=["name"=>'options', "label"=> "OPTS", "template"=>"options"];
 }
 ```
+
 In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .php)`.
 
 ### You can dynamically define your rendering method by specifing its static method's name, or callable value.
+
 ```php
   static $meta_boxes=["name"=>"options", "render"=>"render_options_box"];
   //...
