@@ -58,7 +58,9 @@ echo $event instanceof Event; //true
 echo $event->post instanceof WP_Post; //true
 ```
 
-Accessing one post's custom attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them (You can simply define themes attributes by declaring static attribute or method named `meta_attributes`).
+Accessing one post's meta attributes(which are persisted into `wp_postmeta` table), `get`, `set`, and `delete` them (You can simply define themes attributes by declaring static attribute or method named `meta_attributes`).
+
+Meta attributes are scalar values(boolean, integer, float, string) Non-scalar value, such as arrays, objects and recources cannot assign into meta attributes.
 
 Notice: `post_type` is automatically guessed and registered into WP from **class name**. For example, class `Event` will be interpretated to `event`, class `ScheduledEvent` will be `scheduled_event`. `post_type`'s length  is **limited 20chars**.
 
@@ -118,16 +120,36 @@ In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .
 ```
 
 ## Callback
-When saving a post, POSTed `meta_attributes` will be automatically persisted into wp_postmeta table(via WP's action hook: `save_post`), when CSRF authorized. Otherwise, this callback is skipped (meta_attributes **will not persisted**).
+When saving a post, POSTed `meta_attributes` will be automatically persisted(**added** or **updated**) into wp_postmeta table(via WP's action hook: `save_post`), when CSRF authorized. Otherwise, this callback is skipped (meta_attributes **will not persisted**).
+
+Make sure meta attributes which are not POSTed will not be deleted. When you do not prefer orphaned meta attributes, you will need to define your custom callback to destroy them.
 
 **$meta_boxes** generates its own csrf token (per meta_box) and render hidden  input field with `_art_nonce_{template's name}` (eg, `_art_nonce_item_price`).
 CSRF authorization check this token and authorize your POSTed meta_attributes.
 
+You can define two custom callback methods `after_save` and `before_save`. `after_save` is invoked within WP's `save_post` hook, just after it's POSTed meta_attributes are persisted. `before_save` is invoked within WP's `wp_insert_post_data` hook.
+
+Notice: If CSRF authorization failed, `after_save` callback is canceled.
+
+This will set "updated_at" meta attribute to current UNIX timestamp when updating a post:
+
 ```php
 class Information extends Artovenry\CustomPostType\Base{
+  static $meta_atributes= ["updated_at"];
   static function after_save($post_id, $post, $updated){
-    if($post->post_status === "draft")
-      $
+    if(!$updated)return;
+    $post->set_meta("updated_at", time()); //$post is a instance of Information, not a WP_Post
+  }
+}
+```
+
+This will truncate "post_title" attribute within 20 words before save a post.
+
+```php
+class Information extends Artovenry\CustomPostType\Base{
+  static function before_save($sanitized, $raw){
+    $sanitized["post_title"]= wp_trim_words($sanitized["post_title"], 20);
+    return $sanitized;  //You must return $sanitized.
   }
 }
 ```
