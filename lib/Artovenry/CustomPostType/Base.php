@@ -1,6 +1,7 @@
 <?
 namespace Artovenry\CustomPostType;
 abstract class Base{
+  const IDENTIFIER_LENGTH_LIMIT= 20;
   static $default_post_type_options=[
     "public"          => true,
     "hierarchical"    => false,
@@ -20,7 +21,12 @@ abstract class Base{
     return new static($post_or_post_id);
   }
   static function post_type(){
-    return toLowerCase(get_called_class());
+    $str= toLowerCase(get_called_class());
+    if(strlen($str) > self::IDENTIFIER_LENGTH_LIMIT){
+      if(ART_ENV === "development")throw new Error("Post Type name length must be less than 20chars(including hyphens).");
+      return false;
+    }
+    return $str;
   }
 
   //private
