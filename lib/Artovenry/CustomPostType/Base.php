@@ -32,7 +32,12 @@ abstract class Base{
   //private
     private function __construct($post_or_post_id){
       $p= $post_or_post_id;
-      $this->post= is_int($p)? get_post($p): $p;
-      $this->post_id= is_int($p)? $p: $p->ID;
+      if(is_int($p))$p= get_post($p);
+      if(!$p)throw new RecordNotFound($post_or_post_id);
+      if($p->post_type !== self::post_type())
+        throw new RecordTypeMismatch($p->post_type, self::post_type());
+  
+      $this->post= $p;
+      $this->post_id= $p->ID;
     }
 }

@@ -10,8 +10,9 @@ class MetaBox{
   private $name;
 
   static function create($class_name){
-    $meta_boxes= $class_name::extract_static_for("meta_boxes");
     $post_type= $class_name::post_type();
+    if(!isset($class_name::$meta_boxes))return [];
+    $meta_boxes= $class_name::extract_static_for("meta_boxes");
     if(empty($meta_boxes))return [];
     return array_map(function($item) use($post_type){
       return new self($post_type, $item);

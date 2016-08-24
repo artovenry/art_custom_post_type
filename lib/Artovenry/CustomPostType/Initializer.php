@@ -39,9 +39,14 @@ class Initializer{
 					return false;
 				}
 				$post_type= $class_name::post_type();
-				$options= $class_name::extract_static_for("post_type_options");
-				if(empty($options["label"]))$options["label"]= $post_type;
-				$options= array_merge(Base::$default_post_type_options, $options);
+				if(!isset($class_name::$post_type_options)){
+					$options= Base::$default_post_type_options;
+				}else{
+					$options= $class_name::extract_static_for("post_type_options");
+					if(empty($options["label"]))$options["label"]= $post_type;
+					$options= array_merge(Base::$default_post_type_options, $options);
+				}
+
 				$meta_boxes= MetaBox::create($class_name);
 				$options["register_meta_box_cb"]= function() use($meta_boxes){
 					foreach($meta_boxes as $item)$item->register();
