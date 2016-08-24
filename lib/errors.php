@@ -5,9 +5,9 @@ class Error extends \Exception{
     parent::__construct($message);
   }
 }
-class RecordNotFound extends Error{
-  //function __construct($)
-}
+class RecordNotFound extends Error{}
+class RecordNotWpPost extends Error{}
+class RecordTypeMismatch extends Error{}
 class TemplateNotFound extends Error{
   function __construct($path){
     parent::__construct("Template: '{$path}(.html.haml or .php)' Not Found!");

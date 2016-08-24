@@ -34,7 +34,7 @@ abstract class Base{
       $p= $post_or_post_id;
       if(is_int($p))$p= get_post($p);
       if(!$p)throw new RecordNotFound($post_or_post_id);
-      //if(!($p instanceof \WP_Post)) throw new
+      if(!($p instanceof \WP_Post)) throw new RecordNotWpPost();
       if($p->post_type !== self::post_type())
         throw new RecordTypeMismatch($p->post_type, self::post_type());
 
