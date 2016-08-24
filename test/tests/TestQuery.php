@@ -53,4 +53,24 @@ class TestQuery extends  Artovenry\CustomPostType\TestCase{
       );
     }
   }
+  function test_take_simple(){
+    $this->assert(TypeOne::take() instanceof TypeOne);
+    $this->assert(TypeOne::take(2) instanceof TypeOne);
+    $this->insert("type_one", "Ninjin");
+    $this->assert(TypeOne::take()->post_title === "Ninjin");
+    $this->assert(count(TypeOne::take(2)) === 2);
+    $this->assert(TypeOne::take(2)[1]->post_title === "Daikon");
+  }
+  function test_ordering_query(){
+    $this->insert("type_one", "Ninjin");
+    $this->insert("type_one", "Nasu");
+    $this->insert("type_one", "Tamanegi");
+    $yasais_4= TypeOne::fetch(["orderby"=>"title", "order"=>"ASC"]);
+
+    $this->assert($yasais_4[0]->post_title === "Daikon");
+    $this->assert($yasais_4[1]->post_title === "Nasu");
+    $this->assert($yasais_4[2]->post_title === "Ninjin");
+    $this->assert($yasais_4[3]->post_title === "Tamanegi");
+
+  }
 }
