@@ -2,12 +2,26 @@
 namespace Artovenry\CustomPostType;
 abstract class Base{
   const IDENTIFIER_LENGTH_LIMIT= 20;
+  use Query;
+  use PostMeta;
+  private $post;
+
   static $default_post_type_options=[
     "public"          => true,
     "hierarchical"    => false,
     "rewrite"         => false,
     "support"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
+
+  function __get($name){
+    if($name==="post")return $this->post;
+    if($attrs= self::extract_static_for("meta_attributes")){
+      foreach($attrs as $attr)
+        if($name === $attr)return $this->get_meta($attr);
+    }
+    return $this->post->$name;
+  }
+
 
   static function extract_static_for($name){
     if(isset(static::$$name) && !empty(static::$$name))
@@ -17,7 +31,6 @@ abstract class Base{
       return call_user_func($method_name);
     return false;
   }
-
   static function build($post_or_post_id){
     return new static($post_or_post_id);
   }
@@ -39,6 +52,5 @@ abstract class Base{
         throw new RecordTypeMismatch($p->post_type, self::post_type());
 
       $this->post= $p;
-      $this->post_id= $p->ID;
     }
 }
