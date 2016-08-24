@@ -19,7 +19,9 @@ trait Query{
     $posts= static::fetch($args);
     return count($posts) === 1 ? array_shift($posts) : $posts;
   }
-  static function all(){}
+  static function all($query=[]){
+    return static::take(-1, $query);
+  }
   static function fetch($args= []){
     $rs= [];
     foreach(get_posts(static::parse_query($args)) as $item)

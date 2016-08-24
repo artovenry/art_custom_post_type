@@ -81,4 +81,11 @@ class TestQuery extends  Artovenry\CustomPostType\TestCase{
     $this->assertEquals(TypeOne::take($query)->post_title, "Tomato");
     $this->assertEquals(TypeOne::take(3, $query)[1]->post_title, "Piiman");
   }
+  function test_all(){
+    $this->insert("type_one", "Kabocha");
+    $this->insert("type_one", "Tomato");
+    $this->insert("type_one", "Piiman");
+    $this->assertCount(4, TypeOne::all());
+    $this->assertCount(0, TypeOne::all(["post_status"=>"draft"]));
+  }
 }
