@@ -1,6 +1,7 @@
 <?
 namespace Artovenry\CustomPostType;
 
+//#[PERFORMANCE]
 class Initializer{
 	private $post_types= [];
 
