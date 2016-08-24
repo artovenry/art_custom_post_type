@@ -7,8 +7,15 @@ trait Query{
     if($raise) throw new RecordNotFound;
     return false;
   }
-  static function take($limit= 1){
-    $args= ["posts_per_page"=>$limit];
+  static function take($limit_or_query=1, $query=[]){
+    if(!is_int($limit_or_query)){
+      $limit= 1;
+      $args= $limit_or_query;
+    }else{
+      $limit= $limit_or_query;
+      $args= $query;
+    }
+    $args= array_merge(["posts_per_page"=>$limit], $args);
     $posts= static::fetch($args);
     return count($posts) === 1 ? array_shift($posts) : $posts;
   }

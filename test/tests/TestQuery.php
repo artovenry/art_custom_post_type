@@ -71,6 +71,14 @@ class TestQuery extends  Artovenry\CustomPostType\TestCase{
     $this->assert($yasais_4[1]->post_title === "Nasu");
     $this->assert($yasais_4[2]->post_title === "Ninjin");
     $this->assert($yasais_4[3]->post_title === "Tamanegi");
+  }
+  function test_take_with_query(){
+    $this->insert("type_one", "Kabocha");
+    $this->insert("type_one", "Tomato");
+    $this->insert("type_one", "Piiman");
+    $query=["orderby"=>"title"];
 
+    $this->assertEquals(TypeOne::take($query)->post_title, "Tomato");
+    $this->assertEquals(TypeOne::take(3, $query)[1]->post_title, "Piiman");
   }
 }
