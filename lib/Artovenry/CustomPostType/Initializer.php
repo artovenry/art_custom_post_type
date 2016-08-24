@@ -35,10 +35,7 @@ class Initializer{
 			foreach(glob(join("/", [get_template_directory(),MODELS, "/*.php"])) as $file){
 				$class_name= basename($file, ".php");
 				require $file;
-				if(!class_exists($class_name))
-					throw new Error("class {$class_name} is not found.");
-				if(!is_subclass_of($class_name, "Artovenry\CustomPostType\Base"))
-					throw new Error("class {$class_name} is not inherited from Artovenry\CustomPostType\Base.");
+				static::check($class_name);
 
 				$post_type= $class_name::post_type();
 				if(!($options= $class_name::extract_static_for("post_type_options")))
@@ -52,4 +49,15 @@ class Initializer{
 				$this->post_types[$post_type]= $options;
 			}
 		}
+
+		//private
+			private static function check($class_name){
+				if(!class_exists($class_name))
+					throw new Error("class {$class_name} is not found.");
+				if(!is_subclass_of($class_name, "Artovenry\CustomPostType\Base"))
+					throw new Error("class {$class_name} is not inherited from Artovenry\CustomPostType\Base.");
+				if($meta_attributes= $class_name::extract_static_for("meta_attributes"))
+					foreach($meta_attributes as $item)
+						if(!preg_match(META_ATTRIBUTE_NAME_REGEXP, $item))throw new Error("Meta attribute name  must be " . META_ATTRIBUTE_NAME_REGEXP);
+			}
 }
