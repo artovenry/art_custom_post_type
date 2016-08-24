@@ -10,10 +10,10 @@ class MetaBox{
   private $name;
 
   static function create($class_name){
+    if(!($meta_boxes= $class_name::extract_static_for("meta_boxes")))
+      return [];
+
     $post_type= $class_name::post_type();
-    if(!isset($class_name::$meta_boxes))return [];
-    $meta_boxes= $class_name::extract_static_for("meta_boxes");
-    if(empty($meta_boxes))return [];
     return array_map(function($item) use($post_type){
       return new self($post_type, $item);
     }, $meta_boxes);
@@ -32,24 +32,27 @@ class MetaBox{
       $post_type=> $class_name::build($post),
       "args"=> $args
     ];
-    if(is_callable($render)){
-      call_user_func_array($render, [$locals]);
-    }elseif(is_callable("{$class_name}::{$render}")){
-      call_user_func_array("{$class_name}::{$render}", [$locals]);
-    }elseif(DEFAULT_RENDERER === "Haml"){
-      Haml::render_metabox($template, $locals);
-    }else{
-      do_action("art_render_metabox", $locals, $this->options);
+    try{
+      if(is_callable($render)){
+        call_user_func_array($render, [$locals]);
+      }elseif(is_callable("{$class_name}::{$render}")){
+        call_user_func_array("{$class_name}::{$render}", [$locals]);
+      }elseif(DEFAULT_RENDERER === "Haml"){
+        Haml::render_metabox($template, $locals);
+      }else{
+        do_action("art_render_metabox", $locals, $this->options);
+      }
+    }catch(Error $e){
+      if(ART_ENV === "development")throw $e;
+      return false;
     }
   }
 
   //private
     private function __construct($post_type, $options){
       $this->post_type= $post_type;
-      if(empty($options["name"])){
-        if(ART_ENV === "development")throw new Error("Failed to create metabox.");
-        return false;
-      }
+      if(empty($options["name"]))
+        throw new Error("Failed to create metabox.");
       $this->name= join("_", [$post_type, $options["name"]]);
       $this->prefixed_name= PREFIX . $this->name;
 

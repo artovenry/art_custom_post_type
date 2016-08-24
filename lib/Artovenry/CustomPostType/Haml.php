@@ -17,8 +17,8 @@ class Haml{
     elseif(is_readable($path . ".php")):
       echo wp_nonce_field($nonce_key, $nonce_name, true, false);
       include($path . ".php");
-    elseif(ART_ENV === "development"):
-      throw new Error("Template: '{$path}' Not Found!");
+    else:
+      throw new TemplateNotFound($path);
     endif;
   }
 }

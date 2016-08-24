@@ -10,10 +10,11 @@ abstract class Base{
   ];
 
   static function extract_static_for($name){
-    if(!empty(static::$$name)) return static::$$name;
+    if(isset(static::$$name) && !empty(static::$$name))
+      return static::$$name;
     $method_name= join("::", [get_called_class(), $name]);
-    if(is_callable($method_name)) return call_user_func($method_name);
-    if(ART_ENV === "development")throw new Error("Static attribute or method: '$name' is not defined.");
+    if(is_callable($method_name))
+      return call_user_func($method_name);
     return false;
   }
 
@@ -23,8 +24,7 @@ abstract class Base{
   static function post_type(){
     $str= toLowerCase(get_called_class());
     if(strlen($str) > self::IDENTIFIER_LENGTH_LIMIT){
-      if(ART_ENV === "development")throw new Error("Post Type name length must be less than 20chars(including hyphens).");
-      return false;
+      throw new Error("Post Type name length must be less than 20chars(including hyphens).");
     }
     return $str;
   }
@@ -34,9 +34,10 @@ abstract class Base{
       $p= $post_or_post_id;
       if(is_int($p))$p= get_post($p);
       if(!$p)throw new RecordNotFound($post_or_post_id);
+      //if(!($p instanceof \WP_Post)) throw new
       if($p->post_type !== self::post_type())
         throw new RecordTypeMismatch($p->post_type, self::post_type());
-  
+
       $this->post= $p;
       $this->post_id= $p->ID;
     }

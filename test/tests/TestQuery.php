@@ -9,6 +9,9 @@ class TestQuery extends  Artovenry\CustomPostType\TestCase{
   function test_build(){
     $one= $this->insert("type_one");
     $two= $this->insert("type_two");
+
+    $this->assert(TypeOne::build($one) instanceof TypeOne);
+
     try{
       TypeOne::build($two);
     }catch(Exception $e){

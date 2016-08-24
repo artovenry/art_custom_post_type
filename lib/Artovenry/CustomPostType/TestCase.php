@@ -2,14 +2,11 @@
 namespace Artovenry\CustomPostType;
 
 class TestCase extends \PHPUnit_Framework_TestCase{
-  function assert($var, $message=""){
-    return $this->assertTrue($var, $message);
-  }
-  function assertNot($var, $message=""){
-    return $this->assert(!$var, $message);
+  function assert($arg, $message=""){
+    return $this->assertTrue($arg, $message);
   }
   function insert($post_type, $title=""){
-    wp_insert_post([
+    return wp_insert_post([
     "post_title"    =>$title,
     "post_type"     =>$post_type,
     "post_content"  =>"post_content",
