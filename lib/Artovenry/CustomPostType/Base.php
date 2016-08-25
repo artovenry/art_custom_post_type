@@ -4,6 +4,12 @@ abstract class Base{
   const IDENTIFIER_LENGTH_LIMIT= 20;
   use Query;
   use PostMeta;
+  private static $macros=[
+    "post_type_options",
+    "meta_attributes",
+    "meta_boxes"
+  ];
+
   private $post;
 
   static $default_post_type_options=[
@@ -12,6 +18,7 @@ abstract class Base{
     "rewrite"         => false,
     "support"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
+
 
   function __get($name){
     if($name==="post")return $this->post;
@@ -22,15 +29,16 @@ abstract class Base{
     return $this->post->$name;
   }
 
-
-  static function extract_static_for($name){
-    if(isset(static::$$name) && !empty(static::$$name))
-      return static::$$name;
-    $method_name= join("::", [get_called_class(), $name]);
-    if(is_callable($method_name))
-      return call_user_func($method_name);
-    return false;
+  static function __callStatic($name, $args){
+    foreach(self::$macros as $macro){
+      if($macro !== $name)continue;
+      if(isset(static::$$name))return static::$$name;
+      if(is_callable("get_called_class()::{$name}"))return call_user_func_array($name, $args);
+      return false;
+    }
+    throw new Error("Macro {$name} is not defined.");
   }
+
   static function build($post_or_post_id){
     return new static($post_or_post_id);
   }

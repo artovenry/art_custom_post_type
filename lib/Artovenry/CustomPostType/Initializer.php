@@ -39,7 +39,7 @@ class Initializer{
 				static::check($class_name);
 
 				$post_type= $class_name::post_type();
-				if(!($options= $class_name::extract_static_for("post_type_options")))
+				if(!($options= $class_name::post_type_options()))
 					$options= [];
 				if(empty($options["label"]))$options["label"]= $post_type;
 				$options= array_merge(Base::$default_post_type_options, $options);
@@ -57,7 +57,7 @@ class Initializer{
 					throw new Error("class {$class_name} is not found.");
 				if(!is_subclass_of($class_name, "Artovenry\CustomPostType\Base"))
 					throw new Error("class {$class_name} is not inherited from Artovenry\CustomPostType\Base.");
-				if($meta_attributes= $class_name::extract_static_for("meta_attributes"))
+				if($meta_attributes= $class_name::meta_attributes())
 					foreach($meta_attributes as $item)
 						if(!preg_match(META_ATTRIBUTE_NAME_REGEXP, $item))throw new Error("Meta attribute name  must be " . META_ATTRIBUTE_NAME_REGEXP);
 			}

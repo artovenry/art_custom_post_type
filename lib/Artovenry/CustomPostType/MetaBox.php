@@ -10,7 +10,7 @@ class MetaBox{
   private $name;
 
   static function create($class_name){
-    if(!($meta_boxes= $class_name::extract_static_for("meta_boxes")))
+    if(!($meta_boxes= $class_name::meta_boxes()))
       return [];
 
     $post_type= $class_name::post_type();
