@@ -1,0 +1,25 @@
+{
+  "name": "custom_post_type",
+  "version": "1.0.0",
+  "description": "Wordpress plugin for custom post type.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "chokidar  'lib/**/*.php' 'test/**/*.php' -p true -c 'phpunit -c test/phpunit.xml'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://artovenry@github.com/artovenry/custom_post_type.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artovenry/custom_post_type/issues"
+  },
+  "homepage": "https://github.com/artovenry/custom_post_type#readme",
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0"
+  }
+}

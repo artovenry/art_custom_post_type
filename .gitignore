@@ -2,3 +2,4 @@
 WORK
 test/wp/*
 node_modules
+npm-debug.log
