@@ -2,6 +2,13 @@
 namespace Artovenry\CustomPostType;
 
 class TestCase extends \PHPUnit_Framework_TestCase{
+  function setup(){
+    global $wpdb;
+    $wpdb->query("truncate table {$wpdb->posts}");
+    $wpdb->query("truncate table {$wpdb->postmeta}");
+    $this->one= $this->insert("type_one", "Daikon");
+    $this->two= $this->insert("type_two");
+  }
   function assert($arg, $message=""){
     return $this->assertTrue($arg, $message);
   }

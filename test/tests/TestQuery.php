@@ -1,13 +1,5 @@
 <?
 class TestQuery extends  Artovenry\CustomPostType\TestCase{
-  function setup(){
-    global $wpdb;
-    $wpdb->query("truncate table {$wpdb->posts}");
-    $wpdb->query("truncate table {$wpdb->postmeta}");
-    $this->one= $this->insert("type_one", "Daikon");
-    $this->two= $this->insert("type_two");
-  }
-
   function test_accessor(){
     $one= TypeOne::build(get_post($this->one));
     $this->assert($one->ID === $this->one);

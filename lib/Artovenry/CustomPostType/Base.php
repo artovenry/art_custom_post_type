@@ -2,8 +2,7 @@
 namespace Artovenry\CustomPostType;
 abstract class Base{
   const IDENTIFIER_LENGTH_LIMIT= 20;
-  use Query;
-  use PostMeta;
+  use Query, PostMeta;
   private static $macros=[
     "post_type_options",
     "meta_attributes",
@@ -22,11 +21,8 @@ abstract class Base{
 
   function __get($name){
     if($name==="post")return $this->post;
-    if($attrs= self::extract_static_for("meta_attributes")){
-      foreach($attrs as $attr)
-        if($name === $attr)return $this->get_meta($attr);
-    }
-    return $this->post->$name;
+    if(isset($this->post->$name))return $this->post->$name;
+    return $this->get($name);
   }
 
   static function __callStatic($name, $args){
