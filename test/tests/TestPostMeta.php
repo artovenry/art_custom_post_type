@@ -30,10 +30,28 @@ class TestPostMeta extends  Artovenry\CustomPostType\TestCase{
     $this->assert($one->scheduled_on === null,
       "If no value is persisted, its value is null."
     );
-
   }
 
-  function test_setter(){
+  function test_set(){
+    $one= TypeOne::build($this->one);
+    $this->assert($one->set("scheduled_on", "2017-01-01") === true,
+      "If insertion is successed, returns true."
+    );
+    $this->assert($one->set("scheduled_on", "2017-01-02") === true,
+      "If updation is successed, returns true."
+    );
+    $this->assert($one->set("scheduled_on", "2017-01-02") === true,
+      "When the same value is inserted again, also returns true."
+    );
+    try{$one->set("woops", "WOOPS");
+    }catch(Exception $e){
+      $this->assert($e instanceof Artovenry\CustomPostType\AttributeNotFound,
+        "When unexistent attribute is used, raises error."
+      );
+    };
+  }
+
+  function test_set_with_types(){
     $one= TypeOne::build($this->one);
     $one->set("show_at_home", "yes");
     $this->assert($one->show_at_home === "yes");
@@ -63,11 +81,43 @@ class TestPostMeta extends  Artovenry\CustomPostType\TestCase{
     }
   }
 
-  function test_delation(){
+  function test_set_with_hash(){
+    $one= TypeOne::build($this->one);
+    $attributes= [
+      "show_at_home" => "1",
+      "scheduled_on" =>"2016-12-31"
+    ];
+    $this->assert($one->set($attributes) === true,
+      "Multiple insertion is available."
+    );
+    $attributes_with_unexistent_attrs=[
+      "show_at_home" => "0",
+      "foo" =>"FOO",
+      "baa" =>"BAA",
+    ];
+    try{$one->set($attributes_with_unexistent_attrs);
+    }catch(Exception $e){
+      $this->assert($e instanceof Artovenry\CustomPostType\AttributeNotFound,
+        "When unexistent attribute is used, raises error."
+      );
+      $this->assert($one->show_at_home === "1","Insertion is canceled.");
+    }
+    $attributes_with_non_scalar_attrs=[
+      "show_at_home" => "1",
+      "scheduled_on" =>[],
+    ];
+    try{$one->set($attributes_with_non_scalar_attrs);
+    }catch(Exception $e){
+      $this->assert($e instanceof Artovenry\CustomPostType\ValueIsNotScalar);
+      $this->assert($one->show_at_home === "1","Insertion is canceled.");
+    }
+  }
+
+  function test_deletion(){
     global $wpdb;
     $one= TypeOne::build($this->one);
     $one->delete("show_at_home");
-    $this->assert($one->show_at_home === null.
+    $this->assert($one->show_at_home === null,
       "If an attribute is deleted, its value is null."
     );
   }
