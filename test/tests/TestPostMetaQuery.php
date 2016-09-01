@@ -17,13 +17,17 @@ class TestPostMetaQuery extends  Artovenry\CustomPostType\TestCase{
   function test_noop(){}
 
   function test_meta_query(){
+
     $this->assert("Title:5" === TypeOne::fetch([
       "meta_key"   => "show_at_home",
       "meta_value" => "1"
     ])[0]->post_title, "You can specify the value of 'meta_key' as an attribute name defined at your model class.");
 
+
     $query=[
-      "meta_query"=>["key"=>"scheduled_on", "value"=>"2015-12-31", "type"=>"DATE"],
+      "meta_query"=>[
+        ["key"=>"scheduled_on", "value"=>"2015-12-31", "type"=>"DATE"]
+      ],
       "meta_key"=>"show_at_home",
       "order"=>"ASC",
       "orderby"=>"meta_value",
