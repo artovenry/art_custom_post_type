@@ -35,8 +35,17 @@ trait Query{
       "post_type"=>static::post_type()
     ];
     $query= wp_parse_args($query, $defaults);
-    return $query;
-    //return static::parse_meta_query($query);
+    return static::parse_meta_query($query);
     }
 
+    private static function parse_meta_query($query){
+      if(!empty($query["meta_key"]))
+        $query["meta_key"]= static::meta_key_for($query["meta_key"]);
+      if(empty($query["meta_query"]) OR !is_array($query["meta_query"]))return $query;
+      array_walk_recursive($query["meta_query"], function(&$item, $key){
+        if($key === "key")$item= static::meta_key_for($item);
+      });
+      var_dump($query);
+      return $query;
+    }
 }
