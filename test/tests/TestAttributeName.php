@@ -1,7 +1,7 @@
 <?
 class TestAttributeName extends Artovenry\CustomPostType\TestCase{
   function test_attribute_name(){
-    $regexp= Artovenry\CustomPostType\META_ATTRIBUTE_NAME_REGEXP;
+    $regexp= Artovenry\CustomPostType\Base::META_ATTRIBUTE_NAME_REGEXP;
     $this->assert(!!preg_match($regexp, "hogehoge"));
     $this->assert(!!preg_match($regexp, "hoge1"));
     $this->assert(!!preg_match($regexp, "h"));

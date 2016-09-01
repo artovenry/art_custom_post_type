@@ -3,6 +3,7 @@ namespace Artovenry\CustomPostType;
 class MetaBox{
   const CONTEXT= "side";
   const PRIORITY= "core";
+  const WP_ACTION_HOOKNAME= "art_render_metabox";
 
   private $options;
   private $post_type;
@@ -35,12 +36,12 @@ class MetaBox{
     try{
       if(is_callable($render)){
         call_user_func_array($render, [$locals]);
-      }elseif(is_callable("{$class_name}::{$render}")){
+      }elseif(method_exists($class_name, $render)){
         call_user_func_array("{$class_name}::{$render}", [$locals]);
       }elseif(DEFAULT_RENDERER === "Haml"){
         Haml::render_metabox($template, $locals);
       }else{
-        do_action("art_render_metabox", $locals, $this->options);
+        do_action(self::WP_ACTION_HOOKNAME, $locals, $this->options);
       }
     }catch(Error $e){
       if(ART_ENV === "development")throw $e;

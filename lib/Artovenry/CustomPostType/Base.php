@@ -2,13 +2,13 @@
 namespace Artovenry\CustomPostType;
 abstract class Base{
   const IDENTIFIER_LENGTH_LIMIT= 20;
-  use Query, PostMeta;
+  const META_ATTRIBUTE_NAME_REGEXP= "/\A[a-z][a-z0-9_]*\z/";
+  use Initializer, Query, PostMeta;
   private static $macros=[
     "post_type_options",
     "meta_attributes",
     "meta_boxes"
   ];
-
   private $post;
 
   static $default_post_type_options=[
@@ -17,7 +17,6 @@ abstract class Base{
     "rewrite"         => false,
     "support"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
-
 
   function __get($name){
     if($name==="post")return $this->post;
@@ -30,7 +29,7 @@ abstract class Base{
       if($macro !== $name)continue;
       if(isset(static::$$name))return static::$$name;
       if(is_callable("get_called_class()::{$name}"))return call_user_func_array($name, $args);
-      return false;
+      return null;
     }
     throw new Error("Macro {$name} is not defined.");
   }
