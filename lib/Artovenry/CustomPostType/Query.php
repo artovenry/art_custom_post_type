@@ -45,7 +45,6 @@ trait Query{
       array_walk_recursive($query["meta_query"], function(&$item, $key){
         if($key === "key")$item= static::meta_key_for($item);
       });
-      var_dump($query);
       return $query;
     }
 }
