@@ -15,7 +15,7 @@ trait Query{
       $limit= $limit_or_query;
       $args= $query;
     }
-    $args= array_merge(["posts_per_page"=>$limit], $args);
+    $args= wp_parse_args($args, ["posts_per_page"=>$limit]);
     $posts= static::fetch($args);
     return count($posts) === 1 ? array_shift($posts) : $posts;
   }
