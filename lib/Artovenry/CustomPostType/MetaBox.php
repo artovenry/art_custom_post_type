@@ -33,6 +33,7 @@ class MetaBox{
       $post_type=> $class_name::build($post),
       "args"=> $args
     ];
+    echo $this->csrf_hidden_tag();
     try{
       if(is_callable($render)){
         call_user_func_array($render, [$locals]);
@@ -47,6 +48,13 @@ class MetaBox{
       if(ART_ENV === "development")throw $e;
       return false;
     }
+  }
+  function nonce_key(){
+    return $this->prefixed_name;
+  }
+
+  function nonce_name(){
+    return CsrfAuthorization::token_for($this->prefixed_name);
   }
 
   //private
@@ -70,5 +78,8 @@ class MetaBox{
       if(isset($options["args"]))
         $options["args"]= (array)$options["args"];
     	$this->options= $options;
+    }
+    private function csrf_hidden_tag(){
+      return wp_nonce_field($this->nonce_key(), $this->nonce_name(), true, false);
     }
 }

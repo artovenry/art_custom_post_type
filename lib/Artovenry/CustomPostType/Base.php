@@ -7,7 +7,7 @@ abstract class Base{
   private static $macros=[
     "post_type_options",
     "meta_attributes",
-    "meta_boxes"
+    "meta_boxes",
   ];
   private $post;
 

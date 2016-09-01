@@ -26,6 +26,16 @@ trait Initializer{
 			});
 		}
 		private static function register_callbacks(){
-			add_action("save_post", function(){});
+			add_action("save_post_" . static::post_type(), function(){
+				if(FALSE === call_user_func_array(__NAMESPACE__ . "\Callback::after_save", func_get_args()))
+					return;
+				if(method_exists(get_called_class(), "after_save"))
+					call_user_func_array(get_called_class() . "::after_save", func_get_args());
+			}, 10, 3);
+			add_filter("wp_insert_post_data", function($sanitized, $raw){
+				if(method_exists(get_called_class(), "before_save"))
+					return call_user_func_array(get_called_class() . "::before_save", func_get_args());
+				return $sanitized;
+			}, 10, 2);
 		}
 }

@@ -120,12 +120,12 @@ In this case, template file is `{TEMPLATEPATH}/meta_boxes/options.html.haml(or .
 ```
 
 ## Callback
-When saving a post, POSTed `meta_attributes` will be automatically persisted(**added** or **updated**) into wp_postmeta table(via WP's action hook: `save_post`), when CSRF authorized. Otherwise, this callback is skipped (meta_attributes **will not persisted**).
+When saving a post, POSTed `meta_attributes` will be automatically persisted(**added** or **updated**) into wp_postmeta table(via WP's action hook: `save_post`), if the POST has correctly authorized against CSRF . Otherwise, this callback is skipped (meta_attributes **will not persisted**).
 
-Make sure meta attributes which are not POSTed will not be deleted. When you do not prefer orphaned meta attributes, you will need to define your custom callback to destroy them.
+Make sure meta attributes which are not POSTed will not be deleted(or added). When you do not prefer orphaned meta attributes, you may need to define your custom callback to destroy them.
 
 **$meta_boxes** generates its own csrf token (per meta_box) and render hidden  input field with `_art_nonce_{template's name}` (eg, `_art_nonce_item_price`).
-CSRF authorization check this token and authorize your POSTed meta_attributes.
+CSRF authorization checks this token and authorizes your POST.
 
 You can define two custom callback methods `after_save` and `before_save`. `after_save` is invoked within WP's `save_post` hook, just after it's POSTed meta_attributes are persisted. `before_save` is invoked within WP's `wp_insert_post_data` hook.
 
