@@ -26,7 +26,7 @@ class TestPostMetaQuery extends  Artovenry\CustomPostType\TestCase{
 
     $query=[
       "meta_query"=>[
-        ["key"=>"scheduled_on", "value"=>"2015-12-31", "type"=>"DATE"]
+        ["key"=>"scheduled_on", "value"=>"2015-12-31"]
       ],
       "meta_key"=>"show_at_home",
       "order"=>"ASC",
