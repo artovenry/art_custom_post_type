@@ -26,6 +26,8 @@ trait Initializer{
 			});
 		}
 		private static function register_callbacks(){
+			//allows persisting posts which doesn't have any standard post attributes
+			add_filter("wp_insert_post_empty_content", "__return_false");
 			add_action("save_post_" . static::post_type(), function(){
 				call_user_func_array(__NAMESPACE__ . "\Callback::after_save", func_get_args());
 				if(method_exists(get_called_class(), "after_save"))

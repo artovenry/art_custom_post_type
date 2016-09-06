@@ -4,7 +4,6 @@ namespace Artovenry\CustomPostType;
 class Callback{
   static function after_save($post_id, $post, $updated){
     if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if($post->post_status === "auto-draft")return;
     if(!isset($_POST[PREFIX . "meta_boxes"]))return;
     if(!self::is_authorized($post))
       if(ART_ENV === "development")throw new RequestNotAuthenticated;

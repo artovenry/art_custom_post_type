@@ -36,3 +36,9 @@ describe "Basic", ->
       @browser.setValue @field, "1"
       @browser.click "#publish"
       @browser.assert.elementHasValue @field, "1"
+
+    it "should also persist meta attribute when auto-drafted (with no post attributes).", ->
+      @field= "input[name='art_meta_boxes[event][show_at_home]']"
+      @browser.setValue @field, "1"
+      @browser.click "#publish"
+      @browser.assert.elementHasValue @field, "1"
