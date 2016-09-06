@@ -8,6 +8,8 @@ class Callback{
     if(!isset($_POST[PREFIX . "meta_boxes"]))return;
     if(!self::is_authorized($post))
       if(ART_ENV === "development")throw new RequestNotAuthenticated;
+
+
     $class= toCamelCase($post->post_type);
     if(!($meta_attributes= $class::meta_attributes()))return;
     $params= $_POST[PREFIX . "meta_boxes"][$post->post_type];

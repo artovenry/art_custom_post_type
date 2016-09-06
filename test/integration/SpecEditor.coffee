@@ -32,7 +32,7 @@ describe "Basic", ->
 
     it "should persist show_at_home and display your input value.", ->
       @field= "input[name='art_meta_boxes[event][show_at_home]']"
+      @browser.setValue "#title", "Yu-dachi"
       @browser.setValue @field, "1"
       @browser.click "#publish"
       @browser.assert.elementHasValue @field, "1"
-      
