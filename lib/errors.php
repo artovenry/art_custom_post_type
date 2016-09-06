@@ -10,8 +10,8 @@ class RecordNotWpPost extends Error{}
 class RecordTypeMismatch extends Error{}
 class MetaAttributesNotDefined extends Error{}
 class AttributeNotFound extends Error{}
-class AttributeNotSaved extends Error{}
 class ValueIsNotScalar extends Error{}
+class RequestNotAuthenticated extends Error{}
 class TemplateNotFound extends Error{
   function __construct($path){
     parent::__construct("Template: '{$path}(.html.haml or .php)' Not Found!");

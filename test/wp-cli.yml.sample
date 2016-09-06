@@ -10,8 +10,8 @@ core config:
 core install:
   title: Test Title
   url: 192.168.1.2:3000
-  admin_user: vegeta
-  admin_password: vegeta
+  admin_user: admin
+  admin_password: pass
   admin_email: mail@somehost.somedomain
 server:
   host: 192.168.1.2

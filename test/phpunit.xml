@@ -12,5 +12,8 @@
 		<testsuite name="attribute_name">
 			<file>./tests/TestAttributeName.php</file>
 		</testsuite>
+		<testsuite name="meta_api">
+			<file>./tests/TestMetaAPI.php</file>
+		</testsuite>
 	</testsuites>
 </phpunit>

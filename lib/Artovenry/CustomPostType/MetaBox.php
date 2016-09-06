@@ -4,6 +4,7 @@ class MetaBox{
   const CONTEXT= "side";
   const PRIORITY= "core";
   const WP_ACTION_HOOKNAME= "art_render_metabox";
+  const HELPER_IDENTIFIER= "_";
 
   private $options;
   private $post_type;
@@ -31,9 +32,10 @@ class MetaBox{
     $locals= [
       "post_type"=> $post_type,
       $post_type=> $class_name::build($post),
-      "args"=> $args
+      "args"=> $args,
     ];
-    echo $this->csrf_hidden_tag();
+    $locals= array_merge($locals, [self::HELPER_IDENTIFIER=> new HelperProxy]);
+    echo CsrfAuthorization::metabox_csrf_hidden_tag_for($this->options["name"], "{$this->post_type}_");
     try{
       if(is_callable($render)){
         call_user_func_array($render, [$locals]);
@@ -48,13 +50,6 @@ class MetaBox{
       if(ART_ENV === "development")throw $e;
       return false;
     }
-  }
-  function nonce_key(){
-    return $this->prefixed_name;
-  }
-
-  function nonce_name(){
-    return CsrfAuthorization::token_for($this->prefixed_name);
   }
 
   //private
@@ -79,7 +74,18 @@ class MetaBox{
         $options["args"]= (array)$options["args"];
     	$this->options= $options;
     }
-    private function csrf_hidden_tag(){
-      return wp_nonce_field($this->nonce_key(), $this->nonce_name(), true, false);
-    }
+}
+
+class HelperNotFound extends Error{}
+class HelperProxy{
+  private $helpers;
+  function __call($name, $args){
+    foreach($this->helpers as $helper)
+      if(is_callable([$helper, $name]))
+        return call_user_func_array([$helper, $name], $args);
+    throw new HelperNotFound;
+  }
+  function __construct(){
+    $this->helpers[]= new FormHelper;
+  }
 }

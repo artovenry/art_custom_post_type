@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "chokidar  'lib/**/*.php' 'test/**/*.php' -p true -c 'phpunit -c test/phpunit.xml'"
+    "phpunit": "chokidar  'lib/**/*.php' 'test/**/*.php' -p true -c 'phpunit -c test/phpunit.xml",
+    "test": "mocha --require 'espower-coffee/guess' test/integration/**/Spec*.coffee"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,13 @@
   },
   "homepage": "https://github.com/artovenry/custom_post_type#readme",
   "devDependencies": {
-    "chokidar-cli": "^1.2.0"
+    "chokidar-cli": "^1.2.0",
+    "coffee-script": "^1.10.0",
+    "espower-coffee": "^1.0.1",
+    "mocha": "^3.0.2",
+    "phantomjs-prebuilt": "^2.1.12",
+    "power-assert": "^1.4.1",
+    "testium": "^3.3.1",
+    "underscore": "^1.8.3"
   }
 }

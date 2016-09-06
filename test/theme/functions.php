@@ -6,3 +6,4 @@ Event::initialize();
 TypeOne::initialize();
 TypeTwo::initialize();
 function custom_theme_function(){}
+Symfony\Component\Debug\Debug::enable(E_ALL & ~E_NOTICE, false);
