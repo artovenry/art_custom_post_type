@@ -15,7 +15,7 @@ abstract class Base{
     "public"          => true,
     "hierarchical"    => false,
     "rewrite"         => false,
-    "support"        => ["title, editor", "author", "thumbnail", "excerpt", "revisions"],
+    "supports"        => ["title", "editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
 
   function __get($name){
