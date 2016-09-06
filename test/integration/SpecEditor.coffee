@@ -10,20 +10,20 @@ describe "Basic", ->
     @browser.setValue "#user_pass", "pass"
     @browser.click "#wp-submit"
 
-  context "when reached event post list table;", ->
-    beforeEach ->
-      @browser.navigateTo "#{adminRoot}/edit.php?post_type=event"
-    it "should show customized table columns and raws.", ->
-      column_headers= @browser.getElements(".wp-list-table thead th:not(#cb)")
-      assert column_headers.length is 4
-      # @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(1)",
-      #   id: "show_at_home"
-      # @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(2)",
-      #   id: "date"
-      # @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(3)",
-      #   id: "title"
-      # @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(4)",
-      #   id: "author"
+  # context "when reached event post list table;", ->
+  #   beforeEach ->
+  #     @browser.navigateTo "#{adminRoot}/edit.php?post_type=event"
+  #   it "should show customized table columns and raws.", ->
+  #     column_headers= @browser.getElements(".wp-list-table thead th:not(#cb)")
+  #     assert column_headers.length is 4
+  #     @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(1)",
+  #       id: "show_at_home"
+  #     @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(2)",
+  #       id: "date"
+  #     @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(3)",
+  #       id: "title"
+  #     @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(4)",
+  #       id: "author"
 
   context "when reached type-one editor page(no metaboxes);", ->
     beforeEach ->
