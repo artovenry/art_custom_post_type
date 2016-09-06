@@ -17,10 +17,6 @@ describe "Basic", ->
       @browser.setValue "#title", "Semishigure!"
       @browser.click "#publish"
       @browser.assert.elementHasAttributes "#title", {value: "Semishigure!"}
-      @browser.setValue "#title", "Semishigure!"
-      @browser.click "#publish"
-      @browser.assert.elementHasAttributes "#title", {value: "Semishigure!"}
-
 
   context "when reached event editor page; ", ->
     beforeEach ->

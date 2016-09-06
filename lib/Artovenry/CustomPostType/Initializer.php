@@ -6,6 +6,7 @@ trait Initializer{
 		try{
 			static::register_post_type();
 			static::register_callbacks();
+			static::register_posts_list_table();
 		}catch(Error $e){
 			if(ART_ENV === "development")throw $e;
 			return false;
@@ -13,6 +14,14 @@ trait Initializer{
 	}
 
 	//private
+		private static function register_posts_list_table(){
+			add_action("load-edit.php", function(){
+				$inistance= new PostsListTable(get_called_class());
+				$post_type= static::post_type();
+				add_filter("manage_edit-{$post_type}_columns",[$inistance, "register_columns"]);
+				add_action("manage_{$post_type}_posts_custom_column", [$inistance, "render"], 10, 2);
+			});
+		}
 		private static function register_post_type(){
 			add_action("init", function(){
 				if(!($options= static::post_type_options()))$options= [];
