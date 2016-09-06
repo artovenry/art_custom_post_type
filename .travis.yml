@@ -28,5 +28,5 @@ before_script:
   - wp theme activate theme --path=$WP_PATH
 script:
   - phpunit -c ./test/phpunit.xml
-  - wp server --docroot=$WP_PATH
+  - wp server --docroot=$WP_PATH &
   - npm test
