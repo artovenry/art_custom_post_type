@@ -2,14 +2,14 @@ assert= require "power-assert"
 describe "Basic", ->
   before do require("testium/mocha")
   beforeEach ->
-    @browser.navigateTo "/wp-login.php"
+    @browser.navigateTo "http://127.0.0.1:3000/wp-login.php"
     @browser.setValue "#user_login", "admin"
     @browser.setValue "#user_pass", "pass"
     @browser.click "#wp-submit"
 
   context "when reached event editor page; ", ->
     beforeEach ->
-      @browser.navigateTo "/wp-admin/post-new.php?post_type=event"
+      @browser.navigateTo "http://127.0.0.1:3000/wp-admin/post-new.php?post_type=event"
 
     it "should display four meta boxes", ->
       for item in ["option", "hoge", "shoot", "woops"]
