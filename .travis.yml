@@ -2,9 +2,7 @@ language: php
 php:
   - 5.4
 env:
-  - WP_VERSION=3.8
-  - WP_VERSION=4.0
-  - WP_VERSION=4.5.2
+  - WP_VERSION=4.5
 before_script:
   - export PATH=./vendor/bin:./node_modules/.bin:$PATH
   - export WP_PATH=./test/wp/$WP_VERSION
