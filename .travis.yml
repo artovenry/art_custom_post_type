@@ -16,7 +16,7 @@ before_script:
   - npm i -D
   - mysql -uroot -e "create database custom_post_type"
   - mkdir ./test/wp
-  - cp ./test/wp-cli.yml.sample ./test/wp-cli.yml
+  - cp ./wp-cli.yml.sample ./wp-cli.yml
 
   - wp core download --version=$WP_VERSION  --path=$WP_PATH
   - wp core config --path=$WP_PATH
