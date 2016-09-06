@@ -5,6 +5,18 @@ class Event extends Artovenry\CustomPostType\Base{
   ];
 
 
+  static function posts_list_table(){
+    return [
+      "order"=>["show_at_home", "date", "title", "author"],
+      "columns"=>[
+        "show_at_home"=>[
+          "label"=>"SHOW AT HOME",
+          "render"=>function($record){echo $record->post_title;}
+        ]
+      ]
+    ];
+  }
+
   //array or function
   static $meta_attributes= ["show_at_home","scheduled_on"];
 

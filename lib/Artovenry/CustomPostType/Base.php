@@ -8,6 +8,7 @@ abstract class Base{
     "post_type_options",
     "meta_attributes",
     "meta_boxes",
+    "posts_list_table",
   ];
   private $post;
 
@@ -45,11 +46,16 @@ abstract class Base{
     return $str;
   }
 
-  static function meta_key_for($name){
-    if(!($attrs= static::meta_attributes()))throw new MetaAttributesNotDefined;
-    if(array_search($name, $attrs) === false)throw new AttributeNotFound;
-    if(!preg_match(self::META_ATTRIBUTE_NAME_REGEXP, $name))throw new Error("Meta attribute name  must be " . self::META_ATTRIBUTE_NAME_REGEXP);
-    return PREFIX . join("_", [static::post_type(), $name]);
+  static function meta_key_for($name, $raise=true){
+    try{
+      if(!($attrs= static::meta_attributes()))throw new MetaAttributesNotDefined;
+      if(array_search($name, $attrs) === false)throw new AttributeNotFound;
+      if(!preg_match(self::META_ATTRIBUTE_NAME_REGEXP, $name))throw new Error("Meta attribute name  must be " . self::META_ATTRIBUTE_NAME_REGEXP);
+      return PREFIX . join("_", [static::post_type(), $name]);
+    }catch(Error $e){
+      if($raise)throw $e;
+      return false;
+    }
   }
 
   //private

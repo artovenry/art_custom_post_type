@@ -10,6 +10,21 @@ describe "Basic", ->
     @browser.setValue "#user_pass", "pass"
     @browser.click "#wp-submit"
 
+  context "when reached event post list table;", ->
+    beforeEach ->
+      @browser.navigateTo "#{adminRoot}/edit.php?post_type=event"
+    it "should show customized table columns and raws.", ->
+      column_headers= @browser.getElements(".wp-list-table thead th")
+      assert column_headers.length is 4
+      @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-type(1)",
+        id: "show_at_home"
+      @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-type(2)",
+        id: "date"
+      @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-type(3)",
+        id: "title"
+      @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-type(4)",
+        id: "author"
+
   context "when reached type-one editor page(no metaboxes);", ->
     beforeEach ->
       @browser.navigateTo "#{adminRoot}/post-new.php?post_type=type_one"

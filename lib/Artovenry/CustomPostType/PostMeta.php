@@ -13,7 +13,7 @@ trait PostMeta{
     return true;
   }
   function get($name){
-    $rs= get_post_meta($this->ID, static::meta_key_for($name), false);
+    $rs= get_post_meta($this->ID, static::meta_key_for($name));
     if(empty($rs))return null;
     return array_shift($rs);
   }

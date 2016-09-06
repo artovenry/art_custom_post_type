@@ -1,7 +1,7 @@
 <?
-namespace Artovenry\Wp\CustomPost;
+namespace Artovenry\CustomPostType;
 
-class PostsListTable_{
+class PostsListTable{
 	private static $built_in_columns=[
 		"date", "title", "comments", "author"
 	];
@@ -11,7 +11,7 @@ class PostsListTable_{
 
 	function __construct($class){
 		$this->post_type= $class::post_type();
-		$options= $class::posts_list_options();
+		$options= $class::posts_list_table();
 		if(isset($options["columns"]))
 			$this->columns=  $options["columns"];
 		if(isset($options["order"]))
@@ -19,7 +19,8 @@ class PostsListTable_{
 	}
 
 	function register_columns($default_columns){
-		if(empty($columns= $this->build_columns()))return $default_columns;
+		$columns= $this->build_columns();
+		if(empty($columns))return $default_columns;
 		foreach($default_columns as $key=>$value)
 			if(array_key_exists($key, $columns))
 				$columns[$key]= $value;
@@ -27,22 +28,21 @@ class PostsListTable_{
 	}
 	function render($column_name, $post_id){
 		$option= $this->columns[$column_name];
+		if(empty($option))return;
 		$class= toCamelCase($this->post_type);
 		$record= $class::find($post_id);
 		if(isset($option["render"]) AND is_callable($option["render"]))
 			return $option["render"]($record);
-		if($class::is_attr_defined($column_name))
-			echo $record->get_meta($column_name);
+		$attr_name= empty($option["meta_attribute"]) ? $column_name : $option["meta_attribute"];
+		if($class::meta_key_for($attr_name, false))
+			echo $record->$attr_name;
 	}
 
 	//private
-		private function column_names(){
-			return array_keys($this->columns);
-		}
 		private function build_columns(){
 			if(empty($this->order))return false;
 			$columns= array_filter($this->order, function($item){
-				return in_array($item, array_merge($this->built_in_columns(), $this->column_names()));
+				return in_array($item, array_merge($this->built_in_columns(), array_keys($this->columns)));
 			});
 			array_unshift($columns, "cb");
 			$rs=[];
