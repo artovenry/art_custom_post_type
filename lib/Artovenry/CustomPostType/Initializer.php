@@ -27,8 +27,7 @@ trait Initializer{
 		}
 		private static function register_callbacks(){
 			add_action("save_post_" . static::post_type(), function(){
-				if(FALSE === call_user_func_array(__NAMESPACE__ . "\Callback::after_save", func_get_args()))
-					return;
+				call_user_func_array(__NAMESPACE__ . "\Callback::after_save", func_get_args());
 				if(method_exists(get_called_class(), "after_save"))
 					call_user_func_array(get_called_class() . "::after_save", func_get_args());
 			}, 10, 3);

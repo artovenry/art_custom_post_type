@@ -1,0 +1,18 @@
+core download:
+  locale: ja
+core config:
+  dbname: custom_post_type
+  dbuser: root
+  extra-php: |
+    define('SCRIPT_DEBUG', true);
+    define('ART_ENV', "development");
+    define('ART_DEV_ASSETS_URL', "http://127.0.0.1:30000/assets");
+core install:
+  title: Test Title
+  url: 127.0.0.1:3000
+  admin_user: admin
+  admin_password: pass
+  admin_email: mail@somehost.somedomain
+server:
+  host: 127.0.0.1
+  port: 3000

@@ -35,7 +35,7 @@ class MetaBox{
       "args"=> $args,
     ];
     $locals= array_merge($locals, [self::HELPER_IDENTIFIER=> new HelperProxy]);
-    echo CsrfAuthorization::metabox_csrf_hidden_tag_for($this->options["name"], "{$this->post_type}_");
+    echo CsrfAuthorization::metabox_csrf_hidden_tag_for($this->options["name"], $this->post_type);
     try{
       if(is_callable($render)){
         call_user_func_array($render, [$locals]);

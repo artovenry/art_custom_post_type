@@ -6,17 +6,27 @@ env:
   - WP_VERSION=4.0
   - WP_VERSION=4.5
 before_script:
+  - export PATH=./vendor/bin:./node_modules/.bin:$PATH
+  - export WP_PATH=./test/wp/$WP_VERSION
+
   - echo 'date.timezone = "Asia/Tokyo"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'short_open_tag = On' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
   - composer install
+  - npm i -D
   - mysql -uroot -e "create database custom_post_type"
-  - cd ./test && mkdir ./wp
-  - export PATH=../vendor/bin:$PATH
-  - wp core download --version=$WP_VERSION  --path=./wp/$WP_VERSION
-  - wp core config --path=./wp/$WP_VERSION
-  - wp core install --path=./wp/$WP_VERSION
-  - ln -s $TRAVIS_BUILD_DIR ./wp/$WP_VERSION/wp-content/plugins/art_custom_post_type
-  - ln -s $TRAVIS_BUILD_DIR/test/theme ./wp/$WP_VERSION/wp-content/themes/theme
-  - wp plugin activate art_custom_post_type --path=./wp/$WP_VERSION
-  - wp theme activate theme --path=./wp/$WP_VERSION
-script: ../vendor/phpunit/phpunit/phpunit -c ./phpunit.xml
+  - mkdir ./test/wp
+  - cp ./test/wp-cli.yml.sample ./test/wp-cli.yml
+
+  - wp core download --version=$WP_VERSION  --path=$WP_PATH
+  - wp core config --path=$WP_PATH
+  - wp core install --path=$WP_PATH
+
+  - ln -s $TRAVIS_BUILD_DIR $WP_PATH/wp-content/plugins/art_custom_post_type
+  - ln -s $TRAVIS_BUILD_DIR/test/theme $WP_PATH/wp-content/themes/theme
+  - wp plugin activate art_custom_post_type --path=$WP_PATH
+  - wp theme activate theme --path=$WP_PATH
+script:
+  - phpunit -c ./test/phpunit.xml
+  - wp server --docroot=$WP_PATH
+  - npm test
