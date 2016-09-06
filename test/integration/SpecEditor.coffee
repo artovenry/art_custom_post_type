@@ -25,13 +25,13 @@ describe "Basic", ->
   #     @browser.assert.elementHasAttributes ".wp-list-table thead th:nth-of-child(4)",
   #       id: "author"
 
-  # context "when reached type-one editor page(no metaboxes);", ->
-  #   beforeEach ->
-  #     @browser.navigateTo "#{adminRoot}/post-new.php?post_type=type_one"
-  #   it "should save new post normally.", ->
-  #     @browser.setValue "#title", "Semishigure!"
-  #     @browser.click "#publish"
-  #     @browser.assert.elementHasAttributes "#title", {value: "Semishigure!"}
+  context "when reached type-one editor page(no metaboxes);", ->
+    beforeEach ->
+      @browser.navigateTo "#{adminRoot}/post-new.php?post_type=type_one"
+    it "should save new post normally.", ->
+      @browser.setValue "#title", "Semishigure!"
+      @browser.click "#publish"
+      @browser.assert.elementHasAttributes "#title", {value: "Semishigure!"}
 
   context "when reached event editor page; ", ->
     beforeEach ->
