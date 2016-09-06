@@ -20,4 +20,4 @@ describe "Basic", ->
 
       @browser.setValue @field, "1"
       @browser.click "#publish"
-      #@browser.assert.elementHasValue @field, "1"
+      @browser.assert.elementHasValue @field, "1"
