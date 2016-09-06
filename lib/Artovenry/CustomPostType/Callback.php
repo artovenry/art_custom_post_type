@@ -6,25 +6,20 @@ class Callback{
     if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if($post->post_status === "auto-draft")return;
     if(!isset($_POST[PREFIX . "meta_boxes"]))return;
-
     if(!self::is_authorized($post))
       if(ART_ENV === "development")throw new RequestNotAuthenticated;
+    $class= toCamelCase($post->post_type);
+    if(!($meta_attributes= $class::meta_attributes()))return;
+    $params= $_POST[PREFIX . "meta_boxes"][$post->post_type];
+    if(!is_array($params))return;
 
     try{
-      return self::persist_meta_attributes($post);
+      $class::build($post)->set($params);
     }catch(Error $e){
       if(ART_ENV === "development")throw $e;
     }
   }
   //private
-    private static function persist_meta_attributes($post){
-      $class= toCamelCase($post->post_type);
-      if(!($meta_attributes= $class::meta_attributes()))return;
-
-      $params= $_POST[$post->post_type];
-      if(!is_array($params))return;
-      $class::build($post)->set($params);
-    }
     private static function is_authorized($post){
       if(!current_user_can("edit_post", $post->ID)) return false;
       if(!is_user_logged_in()) return false;

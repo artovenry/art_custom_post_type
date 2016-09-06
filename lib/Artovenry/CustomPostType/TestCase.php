@@ -21,4 +21,9 @@ class TestCase extends \PHPUnit_Framework_TestCase{
     "post_status"   =>"publish",
     ]);
   }
+  function tearDown(){
+    global $wpdb;
+    $wpdb->query("truncate table {$wpdb->posts}");
+    $wpdb->query("truncate table {$wpdb->postmeta}");
+  }
 }
