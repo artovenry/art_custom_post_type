@@ -19,7 +19,7 @@ before_script:
   - cp ./wp-cli.yml.sample ./wp-cli.yml
 
   - wp core download --version=$WP_VERSION  --path=$WP_PATH
-  - wp core config --path=$WP_PATH
+  - wp core config --dbprefix=wp_${WP_VERSION//./_}_ --path=$WP_PATH
   - wp core install --path=$WP_PATH
 
   - ln -s $TRAVIS_BUILD_DIR $WP_PATH/wp-content/plugins/art_custom_post_type
