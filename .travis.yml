@@ -8,11 +8,12 @@ env:
 before_install:
   - export PATH=./vendor/bin:./node_modules/.bin:$PATH
   - export WP_PATH=./test/wp/$WP_VERSION
-  - export PORT=${WP_VERSION//./}00
+  - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+  - java -jar selenium-server-standalone-2.41.0.jar > /tmp/selenium.log 2>&1 &
 
 install:
   - composer install
-  - npm i -D
+
 before_script:
   - echo 'date.timezone = "Asia/Tokyo"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'short_open_tag = On' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -28,7 +29,8 @@ before_script:
   - ln -s $TRAVIS_BUILD_DIR/test/theme $WP_PATH/wp-content/themes/theme
   - wp plugin activate art_custom_post_type --path=$WP_PATH
   - wp theme activate theme --path=$WP_PATH
-  - wp server --docroot=$WP_PATH --port=$PORT &
-  - sleep 3
+  - php -S 127.0.0.1:3000 -t $WP_PATH  > /tmp/server.log 2>&1 &
+  # - wp server --docroot=$WP_PATH  &
+  # - sleep 3
 script:
-  - PORT=$PORT npm test
+  - phpunit -c ./test/phpinit.xml
