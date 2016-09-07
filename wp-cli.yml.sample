@@ -4,7 +4,7 @@ core config:
   dbname: custom_post_type
   dbuser: root
   extra-php: |
-    define('SCRIPT_DEBUG', true);
+    define('SCRIPT_DEBUG', false);
     define('ART_ENV', "development");
     define('ART_DEV_ASSETS_URL', "http://127.0.0.1:30000/assets");
 core install:
