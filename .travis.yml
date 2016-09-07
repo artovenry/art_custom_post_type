@@ -33,4 +33,4 @@ before_script:
   # - wp server --docroot=$WP_PATH  &
   # - sleep 3
 script:
-  - phpunit -c ./test/phpinit.xml
+  - phpunit -c ./test/phpunit.xml
