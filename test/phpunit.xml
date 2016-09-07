@@ -15,5 +15,8 @@
 		<testsuite name="meta_api">
 			<file>./tests/TestMetaAPI.php</file>
 		</testsuite>
+		<testsuite name="integration">
+			<directory prefix="Test" suffix=".php">./integration</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>
