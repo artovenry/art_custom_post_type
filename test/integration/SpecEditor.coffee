@@ -1,5 +1,6 @@
 assert= require "power-assert"
-root= "http://127.0.0.1:3000"
+port= process.env.PORT
+root= "http://127.0.0.1:#{port}"
 adminRoot= [root, "wp-admin"].join("/")
 
 describe "Basic", ->
