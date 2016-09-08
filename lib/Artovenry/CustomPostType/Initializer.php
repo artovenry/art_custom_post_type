@@ -16,11 +16,14 @@ trait Initializer{
 	//private
 		private static function register_posts_list_table(){
 			add_action("load-edit.php", function(){
-				$inistance= new PostsListTable(get_called_class());
+				$instance= new PostsListTable(get_called_class());
 				$post_type= static::post_type();
-				add_filter("manage_edit-{$post_type}_columns",[$inistance, "register_columns"]);
-				add_action("manage_{$post_type}_posts_custom_column", [$inistance, "render"], 10, 2);
-				// add_filter("manage_edit-post_sortable_columns",[$instance, "sortable_columns"]);
+				add_filter("manage_edit-{$post_type}_columns",[$instance, "register_columns"]);
+				add_action("manage_{$post_type}_posts_custom_column", [$instance, "render"], 10, 2);
+
+				//Supports sorting fort custom columns.
+				add_action("admin_head", [$instance, "js"]);
+				add_filter("manage_edit-{$post_type}_sortable_columns",[$instance, "sortable_columns"]);
 			});
 		}
 		private static function register_post_type(){

@@ -6,8 +6,8 @@ class PostsListTable{
 		"date", "title", "comments", "author"
 	];
 	private $post_type;
-	private $columns;
-	private $order;
+	private $columns= [];
+	private $order= [];
 
 	function __construct($class){
 		$this->post_type= $class::post_type();
@@ -16,6 +16,20 @@ class PostsListTable{
 			$this->columns=  $options["columns"];
 		if(isset($options["order"]))
 			$this->order= $options["order"];
+	}
+
+	function js(){
+		$screen= get_current_screen();
+		if($screen->post_type !== $this->post_type)return;
+		wp_enqueue_script(PREFIX . "post-table", plugins_url(PLUGIN_NAME) . "/js/post-table.js", ["jquery"]);
+		$postTableColumns= [];
+		foreach($this->columns as $key=>$value){
+			$attr= empty($value["meta_attribute"])? $key: $value["meta_attribute"];
+			$class= toCamelCase($this->post_type);
+			if(!$class::meta_key_for($attr, false))continue;
+			$postTableColumns[$key]= $class::meta_key_for($attr);
+		}
+		wp_localize_script(PREFIX . "post-table", PREFIX . "PostTableColumns", $postTableColumns);
 	}
 
 	function register_columns($default_columns){
@@ -36,6 +50,12 @@ class PostsListTable{
 		$attr_name= empty($option["meta_attribute"]) ? $column_name : $option["meta_attribute"];
 		if($class::meta_key_for($attr_name, false))
 			echo $record->$attr_name;
+	}
+
+	function sortable_columns($columns){
+		foreach($this->columns as $key=>$item)
+			$columns[$key]= $key;
+		return $columns;
 	}
 
 	//private

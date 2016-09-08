@@ -11,7 +11,7 @@ class Event extends Artovenry\CustomPostType\Base{
       "columns"=>[
         "show_at_home"=>[
           "label"=>"SHOW AT HOME",
-          "render"=>function($record){echo $record->post_title;}
+          //"render"=>function($record){echo $record->post_title;}
         ]
       ]
     ];

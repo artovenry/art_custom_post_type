@@ -27,6 +27,8 @@
     "mocha": "^3.0.2",
     "phantomjs-prebuilt": "^2.1.12",
     "power-assert": "^1.4.1",
-    "testium": "^3.3.1"
+    "testium": "^3.3.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
   }
 }
