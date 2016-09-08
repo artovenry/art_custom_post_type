@@ -54,6 +54,8 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
       $this->click("#wp-submit");
     }
     protected function take($selector){
+      if($this->find($selector))
+      if(empty($))
       return $this->find($selector)[0];
     }
     protected function find($selector){
