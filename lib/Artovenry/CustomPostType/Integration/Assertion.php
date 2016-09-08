@@ -10,7 +10,7 @@ trait Assertion{
       $value= $this->take($selector)->getAttribute("value");
       if($value !== $expected)$this->capture("ElementValueNotMatch", true);
       $this->assert($value === $expected, $message);
-    }catch(WebDriverException $e){
+    }catch(NoSuchElementException $e){
       $this->capture("ElementDoesntHaveValue", true);
       throw $e;
     }
