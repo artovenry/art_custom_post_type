@@ -3,6 +3,7 @@ namespace Artovenry\CustomPostType\Integration;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\Exception\NoSuchElementException;
 
 class TestCase extends \Artovenry\CustomPostType\TestCase{
   use Assertion;
@@ -17,6 +18,7 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
     $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::phantomjs());
     $this->login();
   }
+
   function tearDown(){
     $this->driver->close();
   }
@@ -55,12 +57,7 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
       return $this->find($selector)[0];
     }
     protected function find($selector){
-      try{
-        return $this->driver->findElements(WebDriverBy::cssSelector($selector));
-      }catch(Facebook\WebDriver\Exception\NoSuchElementException $e){
-        $this->capture("NoSuchElementException", true);
-        throw $e;
-      }
+      return $this->driver->findElements(WebDriverBy::cssSelector($selector));
     }
     protected function navigateTo($relativePath){
       $absUrl= join("", [$this->root, $relativePath]);
