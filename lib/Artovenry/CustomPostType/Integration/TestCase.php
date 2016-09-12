@@ -18,13 +18,13 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
 
     $wp_url= getenv("WP_URL");
     $this->root= empty($wp_url)? self::DEFAULT_APP_ROOT: $wp_url;
-    $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::phantomjs());
+    $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::chrome());
   }
 
-  // function tearDown(){
-  //   $this->driver->close();
-  //   $this->driver->quit();
-  // }
+  function tearDown(){
+    $this->driver->close();
+    $this->driver->quit();
+  }
 
   //protected
     protected function capture($message="", $automatic= false){

@@ -7,13 +7,17 @@
 	convertWarningsToExceptions="true">
 	<testsuites>
 		<testsuite>
-			<directory prefix="Test" suffix=".php">./tests</directory>
+			<directory prefix="Test" suffix=".php">./unit</directory>
+			<directory prefix="Test" suffix=".php">./integration</directory>
 		</testsuite>
 		<testsuite name="attribute_name">
-			<file>./tests/TestAttributeName.php</file>
+			<file>./unit/TestAttributeName.php</file>
 		</testsuite>
 		<testsuite name="meta_api">
-			<file>./tests/TestMetaAPI.php</file>
+			<file>./unit/TestMetaAPI.php</file>
+		</testsuite>
+		<testsuite name="unit">
+			<directory prefix="Test" suffix=".php">./unit</directory>
 		</testsuite>
 		<testsuite name="integration">
 			<directory prefix="Test" suffix=".php">./integration</directory>

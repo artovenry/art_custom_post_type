@@ -8,8 +8,8 @@ env:
 before_install:
   - export PATH=./vendor/bin:./node_modules/.bin:$PATH
   - export WP_PATH=./test/wp/$WP_VERSION
-  - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
-  - java -jar selenium-server-standalone-2.41.0.jar > /tmp/selenium.log 2>&1 &
+  # - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+  # - java -jar selenium-server-standalone-2.41.0.jar > /tmp/selenium.log 2>&1 &
 
 install:
   - composer install
@@ -31,8 +31,8 @@ before_script:
   - wp theme activate theme --path=$WP_PATH
   - wp rewrite structure 'archive/%post_id%' --path=$WP_PATH
   - wp rewrite flush --path=$WP_PATH
-  - php -S 127.0.0.1:3000 -t $WP_PATH  > /tmp/server.log 2>&1 &
+  # - php -S 127.0.0.1:3000 -t $WP_PATH  > /tmp/server.log 2>&1 &
   # - wp server --docroot=$WP_PATH  &
   # - sleep 3
 script:
-  - phpunit -c ./test/phpunit.xml
+  - phpunit -c ./test/phpunit.xml --testcase=unit
