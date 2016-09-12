@@ -21,10 +21,10 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
     $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::phantomjs());
   }
 
-  function tearDown(){
-    $this->driver->close();
-    $this->driver->quit();
-  }
+  // function tearDown(){
+  //   $this->driver->close();
+  //   $this->driver->quit();
+  // }
 
   //protected
     protected function capture($message="", $automatic= false){
