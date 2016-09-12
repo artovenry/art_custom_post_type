@@ -21,16 +21,7 @@ trait Initializer{
 			add_action("init", [$route, "draw"]);
 		}
 		private static function register_posts_list_table(){
-			add_action("load-edit.php", function(){
-				$instance= new PostsListTable(get_called_class());
-				$post_type= static::post_type();
-				add_filter("manage_edit-{$post_type}_columns",[$instance, "register_columns"]);
-				add_action("manage_{$post_type}_posts_custom_column", [$instance, "render"], 10, 2);
-
-				//Supports sorting fort custom columns.
-				add_action("admin_head", [$instance, "js"]);
-				add_filter("manage_edit-{$post_type}_sortable_columns",[$instance, "sortable_columns"]);
-			});
+			PostsListTable::initialize(get_called_class());
 		}
 		private static function register_post_type(){
 			add_action("init", function(){

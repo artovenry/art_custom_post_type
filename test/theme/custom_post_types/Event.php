@@ -2,11 +2,19 @@
 class Event extends Artovenry\CustomPostType\Base{
   static $post_type_options= [
     "label" => "Our Big Event!",
+    "has_archive"=> true,
   ];
 
-  static $routes=[
-    ["featured_events"=> "index.php?post_type=event&post_per_page=1"]
-  ];
+  static function routes(){
+    add_filter("query_vars", function($vars){
+      return array_merge($vars,["posts_per_page", "meta_key", "meta_value"]);
+    });
+    return [
+      ["featured_events/?$", "index.php?post_type=event&posts_per_page=3&order=desc"],
+      ["best_event/?$", "index.php?post_type=event&posts_per_page=1&order=desc&meta_key=art_event_best&meta_value=finest"],
+    ];
+  }
+
 
   static function posts_list_table(){
     return [
@@ -21,7 +29,7 @@ class Event extends Artovenry\CustomPostType\Base{
   }
 
   //array or function
-  static $meta_attributes= ["show_at_home","scheduled_on"];
+  static $meta_attributes= ["show_at_home","scheduled_on", "best"];
 
   //array or function
   static function meta_boxes(){

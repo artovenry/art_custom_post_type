@@ -22,6 +22,9 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
   }
 
   function tearDown(){
+    global $wpdb;
+    $wpdb->query("truncate table {$wpdb->posts}");
+    $wpdb->query("truncate table {$wpdb->postmeta}");
     $this->driver->close();
     $this->driver->quit();
   }
