@@ -15,6 +15,15 @@ trait Assertion{
       throw $e;
     }
   }
+  protected function assertElementHasAttribute($selector, $hash, $message=""){
+    $el= $this->take($selector);
+    foreach($hash as $name=>$value){
+      if($el->getAttribute($name) === $value)continue;
+      $this->assert(false, $message);
+      return;
+    }
+    $this->assert(true);
+  }
   protected function assertElementExists($selector, $message=""){
     try{
       $this->take($selector);

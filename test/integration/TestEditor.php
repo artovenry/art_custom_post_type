@@ -24,4 +24,9 @@ class TestEditor extends Artovenry\CustomPostType\Integration\TestCase{
     $column_headers= $this->find(".wp-list-table thead th:not(#cb)");
     $this->assertCount(4, $column_headers);
   }
+
+  // function testPostListTableSorting(){
+  //   $this->create23Events();
+  //   $this->navigateTo("/wp-admin/edit.php?post_type=event");
+  // }
 }

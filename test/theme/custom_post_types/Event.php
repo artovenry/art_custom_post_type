@@ -4,6 +4,9 @@ class Event extends Artovenry\CustomPostType\Base{
     "label" => "Our Big Event!",
   ];
 
+  static $routes=[
+    ["featured_events"=> "index.php?post_type=event&post_per_page=1"]
+  ];
 
   static function posts_list_table(){
     return [

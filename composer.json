@@ -10,7 +10,8 @@
         "symfony/debug": "^2.8",
         "phpunit/phpunit": "^4.8",
         "wp-cli/wp-cli": "^0.24",
-        "facebook/webdriver": "^1.1"
+        "facebook/webdriver": "^1.1",
+        "symfony/var-dumper": "2.8"
     },
     "authors": [
         {
