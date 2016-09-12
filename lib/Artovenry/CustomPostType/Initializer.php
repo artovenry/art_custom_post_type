@@ -7,6 +7,7 @@ trait Initializer{
 			static::register_post_type();
 			static::register_callbacks();
 			static::register_posts_list_table();
+			static::register_routes();
 		}catch(Error $e){
 			if(ART_ENV === "development")throw $e;
 			return false;
@@ -14,6 +15,11 @@ trait Initializer{
 	}
 
 	//private
+		private static function register_routes(){
+			$routes= static::routes()? static::routes(): [];
+			$route= new Route(static::post_type(), $routes);
+			add_action("init", [$route, "draw"]);
+		}
 		private static function register_posts_list_table(){
 			add_action("load-edit.php", function(){
 				$instance= new PostsListTable(get_called_class());

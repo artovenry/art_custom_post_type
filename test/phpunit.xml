@@ -18,5 +18,8 @@
 		<testsuite name="integration">
 			<directory prefix="Test" suffix=".php">./integration</directory>
 		</testsuite>
+		<testsuite name="integration_route">
+			<file>./integration/TestRoute.php</file>
+		</testsuite>
 	</testsuites>
 </phpunit>

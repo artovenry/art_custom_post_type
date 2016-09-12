@@ -9,6 +9,7 @@ abstract class Base{
     "meta_attributes",
     "meta_boxes",
     "posts_list_table",
+    "routes",
   ];
   private $post;
 

@@ -16,7 +16,6 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
     $wp_url= getenv("WP_URL");
     $this->root= empty($wp_url)? self::DEFAULT_APP_ROOT: $wp_url;
     $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::phantomjs());
-    $this->login();
   }
 
   function tearDown(){
@@ -57,7 +56,7 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
       if(($rs= $this->find($selector)) !== [])
         return array_shift($rs);
       $this->capture("NoSuchElementException", true);
-      throw new NoSuchElementException;
+      throw new NoSuchElementException("");
     }
     protected function find($selector){
       return $this->driver->findElements(WebDriverBy::cssSelector($selector));
