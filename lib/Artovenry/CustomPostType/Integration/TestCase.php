@@ -10,9 +10,12 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
   const SELENIUM_HOST= "http://localhost:4444/wd/hub";
   const DEFAULT_APP_ROOT= "http://127.0.0.1:3000";
   private $captured= false;
+  private $driver;
 
   function setup(){
     parent::setup();
+    if(!empty($this->$driver))return;
+
     $wp_url= getenv("WP_URL");
     $this->root= empty($wp_url)? self::DEFAULT_APP_ROOT: $wp_url;
     $this->driver= RemoteWebDriver::create(self::SELENIUM_HOST, DesiredCapabilities::phantomjs());
@@ -20,6 +23,7 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
 
   function tearDown(){
     $this->driver->close();
+    $this->driver->quit();
   }
 
   //protected
@@ -45,12 +49,6 @@ class TestCase extends \Artovenry\CustomPostType\TestCase{
     }
     protected function click($selector){
       $this->take($selector)->click();
-    }
-    protected function login(){
-      $this->navigateTo("/wp-login.php");
-      $this->write("#user_login", "admin");
-      $this->write("#user_pass", "pass");
-      $this->click("#wp-submit");
     }
     protected function take($selector){
       if(($rs= $this->find($selector)) !== [])

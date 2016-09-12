@@ -30,6 +30,7 @@ before_script:
   - wp plugin activate art_custom_post_type --path=$WP_PATH
   - wp theme activate theme --path=$WP_PATH
   - wp rewrite structure 'archive/%post_id%' --path=test/wp/4.5.2
+  - wp rewrite flush --path=$WP_PATH
   - php -S 127.0.0.1:3000 -t $WP_PATH  > /tmp/server.log 2>&1 &
   # - wp server --docroot=$WP_PATH  &
   # - sleep 3

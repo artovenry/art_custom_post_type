@@ -1,5 +1,12 @@
 <?
 class TestEditor extends Artovenry\CustomPostType\Integration\TestCase{
+  function setup(){
+    parent::setup();
+    $this->navigateTo("/wp-login.php");
+    $this->write("#user_login", "admin");
+    $this->write("#user_pass", "pass");
+    $this->click("#wp-submit");
+  }
   function testBasic(){
     $this->navigateTo("/wp-admin/post-new.php?post_type=type_one");
     $this->write("#title", "Semishigure!");
@@ -29,4 +36,5 @@ class TestEditor extends Artovenry\CustomPostType\Integration\TestCase{
   //   $this->create23Events();
   //   $this->navigateTo("/wp-admin/edit.php?post_type=event");
   // }
+
 }
