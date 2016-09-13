@@ -2,7 +2,6 @@
     "name": "artovenry/custom_post_type",
     "require": {
         "php": "^5.4",
-        "symfony/yaml": "^2.8",
         "mthaml/mthaml": "^1.8"
     },
     "require-dev": {

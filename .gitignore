@@ -1,8 +1,0 @@
-vendor
-WORK
-test/wp/*
-node_modules
-npm-debug.log
-test/log/*
-wp-cli.yml
-screenshots
