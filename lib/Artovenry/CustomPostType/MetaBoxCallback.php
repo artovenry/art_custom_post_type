@@ -6,7 +6,7 @@ class MetaBoxCallback{
   private $class;
 
   static function initialize($class){
-    new self($this);
+    new self($class);
   }
 
   function before_save_meta_boxes($post_id, $post, $updated){
@@ -24,6 +24,7 @@ class MetaBoxCallback{
     }
 		if(!method_exists($this->class, "save_meta_boxes"))return;
     if(!$params)return;
+    $class= $this->class;
     $record= $class::build($post);
 		call_user_func_array($this->class . "::save_meta_boxes", [$record, $params, $updated]);
   }
@@ -36,9 +37,10 @@ class MetaBoxCallback{
     private function parse_request(){
       $scope= PREFIX . "meta_boxes";
       $params= $_POST[$scope][$this->post_type];
-      if(empty($post))return false;
+      if(empty($params))return false;
       if(!empty($_FILES[$scope]))
         $params= array_merge($params, $this->parse_file_params());
+      return $params;
     }
     private function parse_file_params(){
       $scope= PREFIX . "meta_boxes";
