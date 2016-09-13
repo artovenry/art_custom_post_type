@@ -38,11 +38,14 @@ trait Initializer{
 		private static function register_callbacks(){
 			//allows persisting posts which doesn't have any standard post attributes
 			add_filter("wp_insert_post_empty_content", "__return_false");
-			add_action("save_post_" . static::post_type(), function(){
-				call_user_func_array(__NAMESPACE__ . "\Callback::after_save", func_get_args());
-				if(method_exists(get_called_class(), "after_save"))
-					call_user_func_array(get_called_class() . "::after_save", func_get_args());
-			}, 10, 3);
+
+			MetaBoxCallback::initialize(get_called_class());
+
+			// add_action("save_post_" . static::post_type(), function(){
+			// 	call_user_func_array(__NAMESPACE__ . "\Callback::before_save_meta_boxes", func_get_args());
+				// if(method_exists(get_called_class(), "save_meta_boxes"))
+				// 	call_user_func_array(get_called_class() . "::save_meta_boxes", func_get_args());
+			// }, 10, 3);
 			add_filter("wp_insert_post_data", function($sanitized, $raw){
 				if(method_exists(get_called_class(), "before_save"))
 					return call_user_func_array(get_called_class() . "::before_save", func_get_args());

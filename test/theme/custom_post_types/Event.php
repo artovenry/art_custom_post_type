@@ -47,17 +47,13 @@ class Event extends Artovenry\CustomPostType\Base{
     return $boxes;
   }
 
+
+
   static function shooter($locals){
     echo "SHOOT";
   }
 
-  static function after_save($post_id){
-    // if($_POST["event"]["show_at_home"]["delete"] === "1")
-    //   self::build($post_id)->delete("show_at_home");
-    //
-  }
-  static function before_save($sanitized, $raw){
-    //var_dump($_POST["event"]);exit;
-    return $sanitized;
+  static function save_meta_boxes($record, $params){
+    $record->set($params);
   }
 }
