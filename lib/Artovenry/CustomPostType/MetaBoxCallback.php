@@ -24,8 +24,9 @@ class MetaBoxCallback{
     }
 		if(!method_exists($this->class, "save_meta_boxes"))return;
     if(!$params)return;
+    $class= $this->class;
     $record= $class::build($post);
-		call_user_func_array($this->class . "::save_meta_boxes", [$record, $params, $updated]);
+		call_user_func_array($class . "::save_meta_boxes", [$record, $params, $updated]);
   }
   //private
     private function __construct($class){
@@ -43,16 +44,17 @@ class MetaBoxCallback{
     }
     private function parse_file_params(){
       $scope= PREFIX . "meta_boxes";
-      $rs=[];
+      $_rs=[];
       foreach(array_keys($_FILES[$scope]) as $file_prop){
         foreach($_FILES[$scope][$file_prop][$this->post_type] as $name=>$item){
           if(empty($rs[$name]))$rs[$name]=[];
-          $rs[$name][$file_prop]= $item;
+          $_rs[$name][$file_prop]= $item;
         }
       }
-      foreach($rs as $name=>&$item){
+      $rs=[];
+      foreach($_rs as $name=>$item){
         if(empty($item["name"]))continue;
-        $item= new UploadedFile($item);
+        $rs[$name]= new UploadedFile($item);
       }
       return $rs;
     }

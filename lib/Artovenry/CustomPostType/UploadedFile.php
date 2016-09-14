@@ -2,9 +2,9 @@
 namespace Artovenry\CustomPostType;
 
 class UploadedFileError extends Error{}
-class InvalidUploadError extends UploadError{}
-class UploadFailed extends UploadError{}
-class ExceedsMaxUploadSize extends UploadError{
+class InvalidUploadError extends UploadedFileError{}
+class UploadFailed extends UploadedFileError{}
+class ExceedsMaxUploadSize extends UploadedFileError{
   function __construct($code){
     switch ($code):
       case UPLOAD_ERR_INI_SIZE:
@@ -26,10 +26,6 @@ class UploadedFile{
   }
 
   function check(){
-    if(!is_uploaded_file($this->hash["tmp_name"]))
-      throw new InvalidUploadError;
-
-
     switch ($this->hash["error"]):
       case UPLOAD_ERR_OK:
         return true;
@@ -59,6 +55,8 @@ class UploadedFile{
         throw new UploadFailed;
         break;
     endswitch;
+    if(!is_uploaded_file($this->hash["tmp_name"]))
+      throw new InvalidUploadError;
 
   }
 }
