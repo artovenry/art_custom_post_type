@@ -24,7 +24,6 @@ class MetaBoxCallback{
     }
 		if(!method_exists($this->class, "save_meta_boxes"))return;
     if(!$params)return;
-    $class= $this->class;
     $record= $class::build($post);
 		call_user_func_array($this->class . "::save_meta_boxes", [$record, $params, $updated]);
   }

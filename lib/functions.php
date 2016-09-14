@@ -6,9 +6,12 @@ function toLowerCase($arg=""){
   return strtolower($str);
 }
 
+//type_one_two ->  typeOneTwo -> TypeOneTwo
 function toCamelCase($arg=""){
-  $str= preg_replace("/_[a-z]/", strtoupper('{$0}'), $arg);
-  return ucfirst($str);
+  $words= explode("_", $arg);
+  foreach($words as &$word)
+    $word= ucfirst($word);
+  return join('', $words);
 }
 
 function is_stringish($value, $raise= false){

@@ -24,6 +24,10 @@ trait Initializer{
 			PostsListTable::initialize(get_called_class());
 		}
 		private static function register_post_type(){
+			add_action("post_edit_form_tag", function($post){
+				if($post->post_type === static::post_type())
+			 		echo ' enctype="multipart/form-data"';
+			});
 			add_action("init", function(){
 				if(!($options= static::post_type_options()))$options= [];
 				if(empty($options["label"]))$options["label"]= static::post_type();

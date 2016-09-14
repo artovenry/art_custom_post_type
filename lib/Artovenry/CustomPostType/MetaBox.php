@@ -86,6 +86,6 @@ class HelperProxy{
     throw new HelperNotFound;
   }
   function __construct(){
-    $this->helpers[]= new FormHelper;
+    $this->helpers[]= new MetaBoxes\FormHelper;
   }
 }
