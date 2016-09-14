@@ -19,12 +19,14 @@ class ExceedsMaxUploadSize extends UploadedFileError{
 }
 
 class UploadedFile{
-  private $hash;
+  public $hash;
   function __construct($hash){
     $this->hash= $hash;
     $this->check();
   }
-
+  function get($name){
+    return $this->hash[$name];
+  }
   function check(){
     switch ($this->hash["error"]):
       case UPLOAD_ERR_OK:
