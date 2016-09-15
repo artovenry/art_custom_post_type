@@ -1,4 +1,4 @@
-vendor
+#vendor
 WORK
 test/wp/*
 node_modules
