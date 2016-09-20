@@ -9,9 +9,17 @@ class PostsListTable{
 	private $columns= [];
 	private $order= [];
 
+
+
 	static function initialize($class){
 		$instance= new self($class);
 		$post_type= $class::post_type();
+		add_action("parse_request", function($wp) use($post_type){
+			if(!is_admin())return;
+			if("edit-{$post_type}" !== get_current_screen()->id)return;
+			if(isset($_GET["meta_key"]))
+				$wp->query_vars["meta_key"]= $_GET["meta_key"];
+		});
 		add_action("load-edit.php", function() use($instance, $post_type){
 			add_filter("manage_edit-{$post_type}_columns",[$instance, "register_columns"]);
 			add_action("manage_{$post_type}_posts_custom_column", [$instance, "render"], 10, 2);
