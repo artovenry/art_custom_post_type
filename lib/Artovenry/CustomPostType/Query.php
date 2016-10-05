@@ -20,7 +20,8 @@ trait Query{
     return count($posts) === 1 ? array_shift($posts) : $posts;
   }
   static function all($query=[]){
-    return static::take(-1, $query);
+    $rs= static::take(-1, $query);
+    return is_array($rs) ? $rs : [$rs];
   }
   static function fetch($args= []){
     $rs= [];
