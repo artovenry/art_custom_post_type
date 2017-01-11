@@ -17,6 +17,7 @@ abstract class Base{
     "public"          => true,
     "hierarchical"    => false,
     "rewrite"         => false,
+    "has_archive"     => true,
     "supports"        => ["title", "editor", "author", "thumbnail", "excerpt", "revisions"],
   ];
 
