@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/artovenry/art_custom_post_type.svg?branch=master)](https://travis-ci.org/artovenry/art_custom_post_type)
+
 # custom_post_type
 Wordpress plugin for custom post type.
 
